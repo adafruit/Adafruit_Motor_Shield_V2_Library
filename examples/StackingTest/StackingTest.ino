@@ -15,11 +15,11 @@ Adafruit_MotorShield AFMSbot(0x61); // Rightmost jumper closed
 Adafruit_MotorShield AFMStop(0x60); // Default address, no jumpers
 
 // On the top shield, connect two steppers, each with 200 steps
-Adafruit_StepperMotor *myStepper2 = AFMStop.getStepper(1, 200);
-Adafruit_StepperMotor *myStepper3 = AFMStop.getStepper(2, 200);
+Adafruit_StepperMotor *myStepper2 = AFMStop.getStepper(200, 1);
+Adafruit_StepperMotor *myStepper3 = AFMStop.getStepper(200, 2);
 
 // On the bottom shield connect a stepper to port M3/M4 with 200 steps
-Adafruit_StepperMotor *myStepper1 = AFMSbot.getStepper(2, 200);
+Adafruit_StepperMotor *myStepper1 = AFMSbot.getStepper(200, 2);
 // And a DC Motor to port M1
 Adafruit_DCMotor *myMotor1 = AFMSbot.getMotor(1);
 
