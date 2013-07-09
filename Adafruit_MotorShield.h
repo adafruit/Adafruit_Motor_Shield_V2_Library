@@ -91,7 +91,7 @@ class Adafruit_MotorShield
     void setPWM(uint8_t pin, uint16_t val);
     void setPin(uint8_t pin, boolean val);
     Adafruit_DCMotor *getMotor(uint8_t n);
-    Adafruit_StepperMotor *getStepper(uint8_t n, uint16_t steps);
+    Adafruit_StepperMotor *getStepper(uint16_t steps, uint8_t n);
  private:
     uint8_t _addr;
     uint16_t _freq;

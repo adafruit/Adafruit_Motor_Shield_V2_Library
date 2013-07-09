@@ -89,7 +89,7 @@ Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
 }
 
 
-Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint8_t num, uint16_t steps) {
+Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps, uint8_t num) {
   if (num > 2) return NULL;
 
   num--;
