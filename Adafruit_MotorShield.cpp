@@ -18,7 +18,6 @@
 #if (ARDUINO >= 100)
  #include "Arduino.h"
 #else
- #include <avr/io.h>
  #include "WProgram.h"
 #endif
 #include <Wire.h>
@@ -33,14 +32,12 @@ uint8_t microstepcurve[] = {0, 25, 50, 74, 98, 120, 141, 162, 180, 197, 212, 225
 #endif
 
 Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) {
-  Serial.println("Motor shield constructor");
   _addr = addr;
   _pwm = Adafruit_PWMServoDriver(_addr);
 }
 
 void Adafruit_MotorShield::begin(uint16_t freq) {
   // init PWM w/_freq
-  Serial.println("Motor shield begin");
   Wire.begin();
   _pwm.begin();
   _freq = freq;

@@ -59,26 +59,47 @@ void Adafruit_PWMServoDriver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
   //Serial.print("Setting PWM "); Serial.print(num); Serial.print(": "); Serial.print(on); Serial.print("->"); Serial.println(off);
 
   Wire.beginTransmission(_i2caddr);
+#if ARDUINO >= 100
   Wire.write(LED0_ON_L+4*num);
   Wire.write(on);
   Wire.write(on>>8);
   Wire.write(off);
   Wire.write(off>>8);
+#else
+  Wire.send(LED0_ON_L+4*num);
+  Wire.send((uint8_t)on);
+  Wire.send((uint8_t)(on>>8));
+  Wire.send((uint8_t)off);
+  Wire.send((uint8_t)(off>>8));
+#endif
   Wire.endTransmission();
 }
 
 uint8_t Adafruit_PWMServoDriver::read8(uint8_t addr) {
   Wire.beginTransmission(_i2caddr);
+#if ARDUINO >= 100
   Wire.write(addr);
+#else
+  Wire.send(addr);
+#endif
   Wire.endTransmission();
 
   Wire.requestFrom((uint8_t)_i2caddr, (uint8_t)1);
+#if ARDUINO >= 100
   return Wire.read();
+#else
+  return Wire.receive();
+#endif
 }
 
 void Adafruit_PWMServoDriver::write8(uint8_t addr, uint8_t d) {
   Wire.beginTransmission(_i2caddr);
+#if ARDUINO >= 100
   Wire.write(addr);
   Wire.write(d);
+#else
+  Wire.send(addr);
+  Wire.send(d);
+#endif
   Wire.endTransmission();
 }
