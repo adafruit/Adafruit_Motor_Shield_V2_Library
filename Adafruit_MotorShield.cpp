@@ -23,6 +23,11 @@
 #include <Wire.h>
 #include "Adafruit_MotorShield.h"
 #include <Adafruit_PWMServoDriver.h>
+#ifdef __AVR__
+ #define WIRE Wire
+#else // Arduino Due
+ #define WIRE Wire1
+#endif
 
 
 #if (MICROSTEPS == 8)
@@ -38,7 +43,7 @@ Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) {
 
 void Adafruit_MotorShield::begin(uint16_t freq) {
   // init PWM w/_freq
-  Wire.begin();
+  WIRE.begin();
   _pwm.begin();
   _freq = freq;
   _pwm.setPWMFreq(_freq);  // This is the maximum PWM frequency

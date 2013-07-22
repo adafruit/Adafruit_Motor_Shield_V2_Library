@@ -17,13 +17,18 @@
 
 #include <Adafruit_PWMServoDriver.h>
 #include <Wire.h>
+#ifdef __AVR__
+ #define WIRE Wire
+#else // Arduino Due
+ #define WIRE Wire1
+#endif
 
 Adafruit_PWMServoDriver::Adafruit_PWMServoDriver(uint8_t addr) {
   _i2caddr = addr;
 }
 
 void Adafruit_PWMServoDriver::begin(void) {
- Wire.begin();
+ WIRE.begin();
  reset();
 }
 
@@ -58,48 +63,48 @@ void Adafruit_PWMServoDriver::setPWMFreq(float freq) {
 void Adafruit_PWMServoDriver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
   //Serial.print("Setting PWM "); Serial.print(num); Serial.print(": "); Serial.print(on); Serial.print("->"); Serial.println(off);
 
-  Wire.beginTransmission(_i2caddr);
+  WIRE.beginTransmission(_i2caddr);
 #if ARDUINO >= 100
-  Wire.write(LED0_ON_L+4*num);
-  Wire.write(on);
-  Wire.write(on>>8);
-  Wire.write(off);
-  Wire.write(off>>8);
+  WIRE.write(LED0_ON_L+4*num);
+  WIRE.write(on);
+  WIRE.write(on>>8);
+  WIRE.write(off);
+  WIRE.write(off>>8);
 #else
-  Wire.send(LED0_ON_L+4*num);
-  Wire.send((uint8_t)on);
-  Wire.send((uint8_t)(on>>8));
-  Wire.send((uint8_t)off);
-  Wire.send((uint8_t)(off>>8));
+  WIRE.send(LED0_ON_L+4*num);
+  WIRE.send((uint8_t)on);
+  WIRE.send((uint8_t)(on>>8));
+  WIRE.send((uint8_t)off);
+  WIRE.send((uint8_t)(off>>8));
 #endif
-  Wire.endTransmission();
+  WIRE.endTransmission();
 }
 
 uint8_t Adafruit_PWMServoDriver::read8(uint8_t addr) {
-  Wire.beginTransmission(_i2caddr);
+  WIRE.beginTransmission(_i2caddr);
 #if ARDUINO >= 100
-  Wire.write(addr);
+  WIRE.write(addr);
 #else
-  Wire.send(addr);
+  WIRE.send(addr);
 #endif
-  Wire.endTransmission();
+  WIRE.endTransmission();
 
-  Wire.requestFrom((uint8_t)_i2caddr, (uint8_t)1);
+  WIRE.requestFrom((uint8_t)_i2caddr, (uint8_t)1);
 #if ARDUINO >= 100
-  return Wire.read();
+  return WIRE.read();
 #else
-  return Wire.receive();
+  return WIRE.receive();
 #endif
 }
 
 void Adafruit_PWMServoDriver::write8(uint8_t addr, uint8_t d) {
-  Wire.beginTransmission(_i2caddr);
+  WIRE.beginTransmission(_i2caddr);
 #if ARDUINO >= 100
-  Wire.write(addr);
-  Wire.write(d);
+  WIRE.write(addr);
+  WIRE.write(d);
 #else
-  Wire.send(addr);
-  Wire.send(d);
+  WIRE.send(addr);
+  WIRE.send(d);
 #endif
-  Wire.endTransmission();
+  WIRE.endTransmission();
 }
