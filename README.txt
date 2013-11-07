@@ -2,7 +2,7 @@
  It supports DC motors & Stepper motors with microstepping as well
  as stacking-support. It is *not* compatible with the V1 library!
 
- It will only work with https://www.adafruit.com/products/1483
+ It will only work with https://www.adafruit.com/products/1438
  
  Adafruit invests time and resources providing this open
  source code, please support Adafruit and open-source hardware
