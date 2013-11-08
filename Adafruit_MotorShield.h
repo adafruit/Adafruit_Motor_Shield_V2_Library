@@ -53,7 +53,6 @@ class Adafruit_DCMotor
   friend class Adafruit_MotorShield;
   void run(uint8_t);
   void setSpeed(uint8_t);
-  void brakeMotor();
   
  private:
   uint8_t PWMpin, IN1pin, IN2pin;

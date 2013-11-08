@@ -147,11 +147,6 @@ void Adafruit_DCMotor::run(uint8_t cmd) {
   }
 }
 
-void Adafruit_DCMotor::brakeMotor() {
-    MC->setPin(IN1pin,HIGH);
-    MC->setPin(IN2pin,HIGH);
-}
-
 void Adafruit_DCMotor::setSpeed(uint8_t speed) {
   MC->setPWM(PWMpin, speed*16);
 }
