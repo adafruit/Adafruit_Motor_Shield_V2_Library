@@ -147,7 +147,7 @@ void Adafruit_DCMotor::run(uint8_t cmd) {
   }
 }
 
-void Adafruit_DCMotor::break() {
+void Adafruit_DCMotor::breakMotor() {
     MC->setPin(IN1pin,HIGH);
     MC->setPin(IN2pin,HIGH);
 }
