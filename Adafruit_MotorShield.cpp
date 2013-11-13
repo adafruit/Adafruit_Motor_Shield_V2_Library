@@ -334,8 +334,8 @@ uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
   Serial.print(" pwmA = "); Serial.print(ocra, DEC); 
   Serial.print(" pwmB = "); Serial.println(ocrb, DEC); 
 #endif
-  MC->setPWM(PWMApin, ocra*17);
-  MC->setPWM(PWMBpin, ocrb*17);
+  MC->setPWM(PWMApin, ocra*16);
+  MC->setPWM(PWMBpin, ocrb*16);
   
 
   // release all
