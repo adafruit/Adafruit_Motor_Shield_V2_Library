@@ -6,8 +6,9 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-AF_DCMotor	KEYWORD1
-AF_Stepper	KEYWORD1
+Adafruit_MotorShield	KEYWORD1
+Adafruit_DCMotor	KEYWORD1
+Adafruit_StepperMotor	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -19,6 +20,10 @@ setSpeed	KEYWORD2
 step	KEYWORD2
 onestep	KEYWORD2
 release	KEYWORD2
+getMotor	KEYWORD2
+getStepper	KEYWORD2
+setPin		KEYWORD2
+setPWM		KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
