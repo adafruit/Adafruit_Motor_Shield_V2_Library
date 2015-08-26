@@ -69,9 +69,9 @@ Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
 
   num--;
 
-  if (dcmotors[num].motornum == 0) {
+  if (!dcmotors[num].init) {
     // not init'd yet!
-    dcmotors[num].motornum = num;
+    dcmotors[num].init = 1;
     dcmotors[num].MC = this;
     uint8_t pwm, in1, in2;
     if (num == 0) {
@@ -96,9 +96,9 @@ Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps, uint8_t 
 
   num--;
 
-  if (steppers[num].steppernum == 0) {
+  if (!steppers[num].init) {
     // not init'd yet!
-    steppers[num].steppernum = num;
+    steppers[num].init = 1;
     steppers[num].revsteps = steps;
     steppers[num].MC = this;
     uint8_t pwma, pwmb, ain1, ain2, bin1, bin2;
@@ -126,7 +126,7 @@ Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps, uint8_t 
 
 Adafruit_DCMotor::Adafruit_DCMotor(void) {
   MC = NULL;
-  motornum = 0;
+  init = 0;
   PWMpin = IN1pin = IN2pin = 0;
 }
 
@@ -156,7 +156,7 @@ void Adafruit_DCMotor::setSpeed(uint8_t speed) {
 ******************************************/
 
 Adafruit_StepperMotor::Adafruit_StepperMotor(void) {
-  revsteps = steppernum = currentstep = 0;
+  revsteps = init = currentstep = 0;
 }
 /*
 

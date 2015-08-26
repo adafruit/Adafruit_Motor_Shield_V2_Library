@@ -57,7 +57,7 @@ class Adafruit_DCMotor
  private:
   uint8_t PWMpin, IN1pin, IN2pin;
   Adafruit_MotorShield *MC;
-  uint8_t motornum;
+  uint8_t init;
 };
 
 class Adafruit_StepperMotor {
@@ -77,7 +77,7 @@ class Adafruit_StepperMotor {
   uint16_t revsteps; // # steps per revolution
   uint8_t currentstep;
   Adafruit_MotorShield *MC;
-  uint8_t steppernum;
+  uint8_t init;
 };
 
 class Adafruit_MotorShield
