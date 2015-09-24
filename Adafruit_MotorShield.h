@@ -69,7 +69,7 @@ class Adafruit_StepperMotor {
   void setSpeed(uint16_t);
   uint8_t onestep(uint8_t dir, uint8_t style);
   void release(void);
-  uint32_t usperstep, steppingcounter;
+  uint32_t usperstep;
 
  private:
   uint8_t PWMApin, AIN1pin, AIN2pin;

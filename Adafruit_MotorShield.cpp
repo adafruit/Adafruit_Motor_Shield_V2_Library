@@ -203,7 +203,6 @@ void Adafruit_StepperMotor::setSpeed(uint16_t rpm) {
   //Serial.println("RPM: "); Serial.println(rpm);
 
   usperstep = 60000000 / ((uint32_t)revsteps * (uint32_t)rpm);
-  steppingcounter = 0;
 }
 
 void Adafruit_StepperMotor::release(void) {
@@ -233,12 +232,7 @@ void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir,  uint8_t style) {
   while (steps--) {
     //Serial.println("step!"); Serial.println(uspers);
     ret = onestep(dir, style);
-    delay(uspers/1000); // in ms
-    steppingcounter += (uspers % 1000);
-    if (steppingcounter >= 1000) {
-      delay(1);
-      steppingcounter -= 1000;
-    }
+    delayMicroseconds(uspers);
   }
 }
 
