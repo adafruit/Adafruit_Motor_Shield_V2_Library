@@ -19,7 +19,15 @@ Atmega32u4 @ 8MHz |             |             |     X       |
 ESP8266           |             |             |     X       | 
 Atmega2560 @ 16MHz |      X       |             |            | 
 ATSAM3X8E         |             |      X       |            | 
-ATSAM21D          |             |             |     X       | 
+ATSAM21D          |             |      X       |            | Servo example doesn&#39;t work:
+
+WARNING: library Servo claims to run on [avr, sam] architecture(s) and may be incompatible with your current board which runs on [samd] architecture(s).
+
+In file included from MotorParty.ino:18:0:
+/Applications/Arduino.app/Contents/Java/libraries/Servo/src/Servo.h:67:2: error: #error &quot;This library only supports boards with an AVR or SAM processor.&quot;
+ #error &quot;This library only supports boards with an AVR or SAM processor.&quot;
+  ^
+Error compiling.
 ATtiny85 @ 16MHz  |             |             |     X       | 
 ATtiny85 @ 8MHz   |             |             |     X       | 
 
