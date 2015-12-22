@@ -18,7 +18,7 @@ Atmega32u4 @ 16MHz |             |             |     X       |
 Atmega32u4 @ 8MHz |             |             |     X       | 
 ESP8266           |             |             |     X       | 
 Atmega2560 @ 16MHz |      X       |             |            | 
-ATSAM3X8E         |             |             |     X       | 
+ATSAM3X8E         |             |      X       |            | 
 ATSAM21D          |             |             |     X       | 
 ATtiny85 @ 16MHz  |             |             |     X       | 
 ATtiny85 @ 8MHz   |             |             |     X       | 
