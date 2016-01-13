@@ -19,7 +19,7 @@
 
 #include <inttypes.h>
 #include <Wire.h>
-#include "utility/Adafruit_PWMServoDriver.h"
+#include "utility/Adafruit_MS_PWMServoDriver.h"
 
 //#define MOTORDEBUG
 
@@ -96,7 +96,7 @@ class Adafruit_MotorShield
     uint16_t _freq;
     Adafruit_DCMotor dcmotors[4];
     Adafruit_StepperMotor steppers[2];
-    Adafruit_PWMServoDriver _pwm;
+    Adafruit_MS_PWMServoDriver _pwm;
 };
 
 #endif

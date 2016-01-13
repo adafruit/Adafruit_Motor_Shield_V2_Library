@@ -15,7 +15,7 @@
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-#include <Adafruit_PWMServoDriver.h>
+#include <Adafruit_MS_PWMServoDriver.h>
 #include <Wire.h>
 #if defined(ARDUINO_SAM_DUE)
  #define WIRE Wire1
@@ -24,21 +24,21 @@
 #endif
 
 
-Adafruit_PWMServoDriver::Adafruit_PWMServoDriver(uint8_t addr) {
+Adafruit_MS_PWMServoDriver::Adafruit_MS_PWMServoDriver(uint8_t addr) {
   _i2caddr = addr;
 }
 
-void Adafruit_PWMServoDriver::begin(void) {
+void Adafruit_MS_PWMServoDriver::begin(void) {
  WIRE.begin();
  reset();
 }
 
 
-void Adafruit_PWMServoDriver::reset(void) {
+void Adafruit_MS_PWMServoDriver::reset(void) {
  write8(PCA9685_MODE1, 0x0);
 }
 
-void Adafruit_PWMServoDriver::setPWMFreq(float freq) {
+void Adafruit_MS_PWMServoDriver::setPWMFreq(float freq) {
   //Serial.print("Attempting to set freq ");
   //Serial.println(freq);
   
@@ -63,7 +63,7 @@ void Adafruit_PWMServoDriver::setPWMFreq(float freq) {
   //  Serial.print("Mode now 0x"); Serial.println(read8(PCA9685_MODE1), HEX);
 }
 
-void Adafruit_PWMServoDriver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
+void Adafruit_MS_PWMServoDriver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
   //Serial.print("Setting PWM "); Serial.print(num); Serial.print(": "); Serial.print(on); Serial.print("->"); Serial.println(off);
 
   WIRE.beginTransmission(_i2caddr);
@@ -83,7 +83,7 @@ void Adafruit_PWMServoDriver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
   WIRE.endTransmission();
 }
 
-uint8_t Adafruit_PWMServoDriver::read8(uint8_t addr) {
+uint8_t Adafruit_MS_PWMServoDriver::read8(uint8_t addr) {
   WIRE.beginTransmission(_i2caddr);
 #if ARDUINO >= 100
   WIRE.write(addr);
@@ -100,7 +100,7 @@ uint8_t Adafruit_PWMServoDriver::read8(uint8_t addr) {
 #endif
 }
 
-void Adafruit_PWMServoDriver::write8(uint8_t addr, uint8_t d) {
+void Adafruit_MS_PWMServoDriver::write8(uint8_t addr, uint8_t d) {
   WIRE.beginTransmission(_i2caddr);
 #if ARDUINO >= 100
   WIRE.write(addr);

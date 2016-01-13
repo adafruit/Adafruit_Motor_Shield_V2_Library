@@ -22,7 +22,7 @@
 #endif
 #include <Wire.h>
 #include "Adafruit_MotorShield.h"
-#include <Adafruit_PWMServoDriver.h>
+#include <Adafruit_MS_PWMServoDriver.h>
 
 #if defined(ARDUINO_SAM_DUE)
  #define WIRE Wire1
@@ -39,7 +39,7 @@ uint8_t microstepcurve[] = {0, 25, 50, 74, 98, 120, 141, 162, 180, 197, 212, 225
 
 Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) {
   _addr = addr;
-  _pwm = Adafruit_PWMServoDriver(_addr);
+  _pwm = Adafruit_MS_PWMServoDriver(_addr);
 }
 
 void Adafruit_MotorShield::begin(uint16_t freq) {
