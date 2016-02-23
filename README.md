@@ -22,6 +22,7 @@ ATSAM3X8E         |             |      X       |            |
 ATSAM21D          |             |      X       |            | 
 ATtiny85 @ 16MHz  |             |             |     X       | 
 ATtiny85 @ 8MHz   |             |             |     X       | 
+Intel Curie @ 32MHz |      X    |             |             |
 
   * ATmega328 @ 16MHz : Arduino UNO, Adafruit Pro Trinket 5V, Adafruit Metro 328, Adafruit Metro Mini
   * ATmega328 @ 12MHz : Adafruit Pro Trinket 3V
@@ -33,6 +34,7 @@ ATtiny85 @ 8MHz   |             |             |     X       |
   * ATSAM21D : Arduino Zero, M0 Pro
   * ATtiny85 @ 16MHz : Adafruit Trinket 5V
   * ATtiny85 @ 8MHz : Adafruit Gemma, Arduino Gemma, Adafruit Trinket 3V
+  * Intel Curie @ 32MHz: Arduino/Genuino 101
 
 <!-- END COMPATIBILITY TABLE -->
 
