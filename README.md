@@ -10,18 +10,20 @@ It will only work with https://www.adafruit.com/products/1438
 
 ## Compatibility
 
-MCU               | Tested Works | Doesn't Work | Not Tested  | Notes
------------------ | :----------: | :----------: | :---------: | -----
-Atmega328 @ 16MHz |      X       |             |            | 
-Atmega328 @ 12MHz |      X       |             |            | 
+MCU                | Tested Works | Doesn't Work | Not Tested  | Notes
+------------------ | :----------: | :----------: | :---------: | -----
+Atmega328 @ 16MHz  |      X       |             |            | 
+Atmega328 @ 12MHz  |      X       |             |            | 
 Atmega32u4 @ 16MHz |      X       |             |            | 
-Atmega32u4 @ 8MHz |      X       |             |            | 
-ESP8266           |             |             |     X       | 
+Atmega32u4 @ 8MHz  |      X       |             |            | 
+ESP8266            |             |             |     X       | 
 Atmega2560 @ 16MHz |      X       |             |            | 
-ATSAM3X8E         |             |      X       |            | 
-ATSAM21D          |             |      X       |            | 
-ATtiny85 @ 16MHz  |             |             |     X       | 
-ATtiny85 @ 8MHz   |             |             |     X       | 
+ATSAM3X8E          |             |      X       |            | 
+ATSAM21D           |             |      X       |            | 
+ATtiny85 @ 16MHz   |             |             |     X       | 
+ATtiny85 @ 8MHz    |             |             |     X       | 
+Intel Curie @ 32MHz |             |             |     X       | 
+STM32F2            |             |             |     X       | 
 
   * ATmega328 @ 16MHz : Arduino UNO, Adafruit Pro Trinket 5V, Adafruit Metro 328, Adafruit Metro Mini
   * ATmega328 @ 12MHz : Adafruit Pro Trinket 3V
