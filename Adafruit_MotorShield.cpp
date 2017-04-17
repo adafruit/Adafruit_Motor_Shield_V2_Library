@@ -22,7 +22,7 @@
 #endif
 #include <Wire.h>
 #include "Adafruit_MotorShield.h"
-#include <Adafruit_MS_PWMServoDriver.h>
+#include "utility/Adafruit_MS_PWMServoDriver.h"
 
 #if defined(ARDUINO_SAM_DUE)
  #define WIRE Wire1
@@ -232,10 +232,35 @@ void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir,  uint8_t style) {
 
   while (steps--) {
     //Serial.println("step!"); Serial.println(uspers);
+    uint32_t t0 = micros();
     ret = onestep(dir, style);
-    delayMicroseconds(uspers);
+    uint32_t t1 = micros();
+    if (uspers > t1-t0)
+      longDelayMicroseconds(uspers - (t1-t0));
     yield(); // required for ESP8266
   }
+}
+
+void Adafruit_StepperMotor::longDelayMicroseconds(uint32_t microseconds) {
+
+  // Ardiuno delayMicroseconds() is limited to about 16K (14 bits) of
+  // delay so we use delay() for longer periods.  Delay() is only accurate
+  // to +- 1 ms, so to improve timing accuracy it's only used for 
+  // delays greater than 10 ms.
+
+  if (microseconds < 10000) {
+    delayMicroseconds(microseconds);
+    return;
+  }
+
+  uint32_t ms;	// Milliseconds
+  uint32_t us;	// Microseconds
+
+  ms = microseconds / 1000;
+  us = microseconds % 1000;
+
+  delay(ms);
+  delayMicroseconds(us);
 }
 
 uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {

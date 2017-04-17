@@ -67,6 +67,7 @@ class Adafruit_StepperMotor {
 
   void step(uint16_t steps, uint8_t dir,  uint8_t style = SINGLE);
   void setSpeed(uint16_t);
+  void longDelayMicroseconds(uint32_t microseconds);
   uint8_t onestep(uint8_t dir, uint8_t style);
   void release(void);
   uint32_t usperstep;
