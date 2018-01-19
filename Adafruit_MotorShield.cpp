@@ -1,50 +1,83 @@
-/******************************************************************
- This is the library for the Adafruit Motor Shield V2 for Arduino. 
- It supports DC motors & Stepper motors with microstepping as well
- as stacking-support. It is *not* compatible with the V1 library!
+/*!
+ * @file Adafruit_MotorShield.cpp
+ *
+ * @mainpage Adafruit FXOS8700 accel/mag sensor driver
+ *
+ * @section intro_sec Introduction
+ *
+ * This is the library for the Adafruit Motor Shield V2 for Arduino. 
+ * It supports DC motors & Stepper motors with microstepping as well
+ * as stacking-support. It is *not* compatible with the V1 library!
+ * For use with the Motor Shield https://www.adafruit.com/products/1483
+ * and Motor FeatherWing https://www.adafruit.com/product/2927
+ *
+ * This shield/wing uses I2C to communicate, 2 pins (SCL+SDA) are required
+ * to interface.
+ *
+ * Adafruit invests time and resources providing this open source code,
+ * please support Adafruit and open-source hardware by purchasing
+ * products from Adafruit!
+ *
+ * @section author Author
+ *
+ * Written by Limor Fried/Ladyada for Adafruit Industries.
+ *
+ * @section license License
+ *
+ * BSD license, all text here must be included in any redistribution.
+ *
+ */
 
- It will only work with https://www.adafruit.com/products/1483
- 
- Adafruit invests time and resources providing this open
- source code, please support Adafruit and open-source hardware
- by purchasing products from Adafruit!
- 
- Written by Limor Fried/Ladyada for Adafruit Industries.
- BSD license, check license.txt for more information.
- All text above must be included in any redistribution.
- ******************************************************************/
-
-
-#if (ARDUINO >= 100)
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include "Arduino.h"
 #include <Wire.h>
 #include "Adafruit_MotorShield.h"
 #include <Adafruit_MS_PWMServoDriver.h>
 
-#if defined(ARDUINO_SAM_DUE)
- #define WIRE Wire1
-#else
- #define WIRE Wire
-#endif
-
-
 #if (MICROSTEPS == 8)
+///! A sinusoial microstepping curve for the PWM output (8-bit range) with 9 points - last one is start of next step.
 uint8_t microstepcurve[] = {0, 50, 98, 142, 180, 212, 236, 250, 255};
 #elif (MICROSTEPS == 16)
+///! A sinusoial microstepping curve for the PWM output (8-bit range) with 17 points - last one is start of next step.
 uint8_t microstepcurve[] = {0, 25, 50, 74, 98, 120, 141, 162, 180, 197, 212, 225, 236, 244, 250, 253, 255};
 #endif
 
+
+/**************************************************************************/
+/*!
+    @brief  Create the Motor Shield object at an I2C address, default is 0x60
+    @param  addr Optional I2C address if you've changed it
+*/
+/**************************************************************************/
 Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) {
   _addr = addr;
   _pwm = Adafruit_MS_PWMServoDriver(_addr);
 }
 
-void Adafruit_MotorShield::begin(uint16_t freq) {
+
+/**************************************************************************/
+/*!
+    @brief  Initialize the I2C hardware and PWM driver, then turn off all pins.
+    @param    freq
+    The PWM frequency for the driver, used for speed control and microstepping.
+    By default we use 1600 Hz which is a little audible but efficient.
+    @param    theWire
+    A pointer to an optional I2C interface. If not provided, we use Wire or Wire1
+    (on Due)
+*/
+/**************************************************************************/
+void Adafruit_MotorShield::begin(uint16_t freq, TwoWire *theWire) {
+  if (! theWire) {
+#if defined(ARDUINO_SAM_DUE)
+    _i2c = &Wire1;
+#else
+    _i2c = &Wire;
+#endif
+  } else {
+    _i2c = theWire;
+  }
+
   // init PWM w/_freq
-  WIRE.begin();
+  _i2c->begin();
   _pwm.begin();
   _freq = freq;
   _pwm.setPWMFreq(_freq);  // This is the maximum PWM frequency
@@ -52,12 +85,28 @@ void Adafruit_MotorShield::begin(uint16_t freq) {
     _pwm.setPWM(i, 0, 0);
 }
 
+
+/**************************************************************************/
+/*!
+    @brief  Helper that sets the PWM output on a pin and manages 'all on or off'
+    @param  pin The PWM output on the driver that we want to control (0-15)
+    @param  value The 12-bit PWM value we want to set (0-4095) - 4096 is a special 'all on' value
+*/
+/**************************************************************************/
 void Adafruit_MotorShield::setPWM(uint8_t pin, uint16_t value) {
   if (value > 4095) {
     _pwm.setPWM(pin, 4096, 0);
   } else 
     _pwm.setPWM(pin, 0, value);
 }
+
+/**************************************************************************/
+/*!
+    @brief  Helper that sets the PWM output on a pin as if it were a GPIO
+    @param  pin The PWM output on the driver that we want to control (0-15)
+    @param  value HIGH or LOW depending on the value you want!
+*/
+/**************************************************************************/
 void Adafruit_MotorShield::setPin(uint8_t pin, boolean value) {
   if (value == LOW)
     _pwm.setPWM(pin, 0, 0);
@@ -65,6 +114,15 @@ void Adafruit_MotorShield::setPin(uint8_t pin, boolean value) {
     _pwm.setPWM(pin, 4096, 0);
 }
 
+
+/**************************************************************************/
+/*!
+    @brief  Mini factory that will return a pointer to an already-allocated 
+    Adafruit_DCMotor object. Initializes the DC motor and turns off all pins
+    @param  num The DC motor port we want to use: 0 thru 3 are valid
+    @returns NULL if something went wrong, or a pointer to a Adafruit_DCMotor
+*/
+/**************************************************************************/
 Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
   if (num > 4) return NULL;
 
@@ -91,7 +149,16 @@ Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
   return &dcmotors[num];
 }
 
-
+/**************************************************************************/
+/*!
+    @brief  Mini factory that will return a pointer to an already-allocated 
+    Adafruit_StepperMotor object with a given 'steps per rotation. 
+    Then initializes the stepper motor and turns off all pins.
+    @param  steps How many steps per revolution (used for RPM calculation)
+    @param  num The stepper motor port we want to use: only 0 or 1 are valid
+    @returns NULL if something went wrong, or a pointer to a Adafruit_StepperMotor
+*/
+/**************************************************************************/
 Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps, uint8_t num) {
   if (num > 2) return NULL;
 
@@ -125,12 +192,25 @@ Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps, uint8_t 
                MOTORS
 ******************************************/
 
+/**************************************************************************/
+/*!
+    @brief  Create a DCMotor object, un-initialized!
+    You should never call this, instead have the {@link Adafruit_MotorShield} 
+    give you a DCMotor object with {@link Adafruit_MotorShield.getMotor}
+*/
+/**************************************************************************/
 Adafruit_DCMotor::Adafruit_DCMotor(void) {
   MC = NULL;
   motornum = 0;
   PWMpin = IN1pin = IN2pin = 0;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Control the DC Motor direction and action
+    @param  cmd The action to perform, can be FORWARD, BACKWARD or RELEASE
+*/
+/**************************************************************************/
 void Adafruit_DCMotor::run(uint8_t cmd) {
   switch (cmd) {
   case FORWARD:
@@ -148,6 +228,12 @@ void Adafruit_DCMotor::run(uint8_t cmd) {
   }
 }
 
+/**************************************************************************/
+/*!
+    @brief  Control the DC Motor speed/throttle
+    @param  speed The 8-bit PWM value, 0 is off, 255 is on
+*/
+/**************************************************************************/
 void Adafruit_DCMotor::setSpeed(uint8_t speed) {
   MC->setPWM(PWMpin, speed*16);
 }
@@ -156,49 +242,24 @@ void Adafruit_DCMotor::setSpeed(uint8_t speed) {
                STEPPERS
 ******************************************/
 
+/**************************************************************************/
+/*!
+    @brief  Create a StepperMotor object, un-initialized!
+    You should never call this, instead have the {@link Adafruit_MotorShield} 
+    give you a StepperMotor object with {@link Adafruit_MotorShield.getStepper}
+*/
+/**************************************************************************/
 Adafruit_StepperMotor::Adafruit_StepperMotor(void) {
   revsteps = steppernum = currentstep = 0;
 }
-/*
 
-uint16_t steps, Adafruit_MotorShield controller)  {
 
-  revsteps = steps;
-  steppernum = 1;
-  currentstep = 0;
-
-  if (steppernum == 1) {
-    latch_state &= ~_BV(MOTOR1_A) & ~_BV(MOTOR1_B) &
-      ~_BV(MOTOR2_A) & ~_BV(MOTOR2_B); // all motor pins to 0
-    
-    // enable both H bridges
-    pinMode(11, OUTPUT);
-    pinMode(3, OUTPUT);
-    digitalWrite(11, HIGH);
-    digitalWrite(3, HIGH);
-
-    // use PWM for microstepping support
-    MC->setPWM(1, 255);
-    MC->setPWM(2, 255);
-
-  } else if (steppernum == 2) {
-    latch_state &= ~_BV(MOTOR3_A) & ~_BV(MOTOR3_B) &
-      ~_BV(MOTOR4_A) & ~_BV(MOTOR4_B); // all motor pins to 0
-
-    // enable both H bridges
-    pinMode(5, OUTPUT);
-    pinMode(6, OUTPUT);
-    digitalWrite(5, HIGH);
-    digitalWrite(6, HIGH);
-
-    // use PWM for microstepping support
-    // use PWM for microstepping support
-    MC->setPWM(3, 255);
-    MC->setPWM(4, 255);
-  }
-}
+/**************************************************************************/
+/*!
+    @brief  Set the delay for the Stepper Motor speed in RPM
+    @param  rpm The desired RPM, we will do our best to reach it!
 */
-
+/**************************************************************************/
 void Adafruit_StepperMotor::setSpeed(uint16_t rpm) {
   //Serial.println("steps per rev: "); Serial.println(revsteps);
   //Serial.println("RPM: "); Serial.println(rpm);
@@ -206,6 +267,11 @@ void Adafruit_StepperMotor::setSpeed(uint16_t rpm) {
   usperstep = 60000000 / ((uint32_t)revsteps * (uint32_t)rpm);
 }
 
+/**************************************************************************/
+/*!
+    @brief  Release all pins of the stepper motor so it free-spins
+*/
+/**************************************************************************/
 void Adafruit_StepperMotor::release(void) {
   MC->setPin(AIN1pin, LOW);
   MC->setPin(AIN2pin, LOW);
@@ -215,6 +281,15 @@ void Adafruit_StepperMotor::release(void) {
   MC->setPWM(PWMBpin, 0);
 }
 
+/**************************************************************************/
+/*!
+    @brief  Move the stepper motor with the given RPM speed, don't forget to call
+    {@link Adafruit_StepperMotor.setSpeed} to set the speed!
+    @param  steps The number of steps we want to move
+    @param  dir The direction to go, can be FORWARD or BACKWARD
+    @param  style How to perform each step, can be SINGLE, DOUBLE, INTERLEAVE or MICROSTEP
+*/
+/**************************************************************************/
 void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir,  uint8_t style) {
   uint32_t uspers = usperstep;
   uint8_t ret = 0;
@@ -238,6 +313,15 @@ void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir,  uint8_t style) {
   }
 }
 
+/**************************************************************************/
+/*!
+    @brief  Move the stepper motor one step only, with no delays
+    @param  dir The direction to go, can be FORWARD or BACKWARD
+    @param  style How to perform each step, can be SINGLE, DOUBLE, INTERLEAVE or MICROSTEP
+    @returns The current step/microstep index, useful for {@link Adafruit_StepperMotor.step} to keep
+    track of the current location, especially when microstepping
+*/
+/**************************************************************************/
 uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
   uint8_t a, b, c, d;
   uint8_t ocrb, ocra;

@@ -44,13 +44,16 @@
 #define INTERLEAVE 3
 #define MICROSTEP 4
 
+
+
 class Adafruit_MotorShield;
 
+/** Object that controls and keeps state for a single DC motor */
 class Adafruit_DCMotor
 {
  public:
   Adafruit_DCMotor(void);
-  friend class Adafruit_MotorShield;
+  friend class Adafruit_MotorShield;  ///< Let MotorShield create DCMotors
   void run(uint8_t);
   void setSpeed(uint8_t);
   
@@ -60,18 +63,21 @@ class Adafruit_DCMotor
   uint8_t motornum;
 };
 
+/** Object that controls and keeps state for a single stepper motor */
 class Adafruit_StepperMotor {
  public:
   Adafruit_StepperMotor(void);
-  friend class Adafruit_MotorShield;
+  void setSpeed(uint16_t);
 
   void step(uint16_t steps, uint8_t dir,  uint8_t style = SINGLE);
-  void setSpeed(uint16_t);
   uint8_t onestep(uint8_t dir, uint8_t style);
   void release(void);
-  uint32_t usperstep;
+
+  friend class Adafruit_MotorShield;  ///< Let MotorShield create StepperMotors
 
  private:
+  uint32_t usperstep;
+
   uint8_t PWMApin, AIN1pin, AIN2pin;
   uint8_t PWMBpin, BIN1pin, BIN2pin;
   uint16_t revsteps; // # steps per revolution
@@ -80,18 +86,23 @@ class Adafruit_StepperMotor {
   uint8_t steppernum;
 };
 
+/** Object that controls and keeps state for the whole motor shield. 
+    Use it to create DC and Stepper motor objects! */
 class Adafruit_MotorShield
 {
   public:
     Adafruit_MotorShield(uint8_t addr = 0x60);
-    friend class Adafruit_DCMotor;
-    void begin(uint16_t freq = 1600);
+
+    void begin(uint16_t freq = 1600, TwoWire *theWire = NULL);
+    Adafruit_DCMotor *getMotor(uint8_t n);
+    Adafruit_StepperMotor *getStepper(uint16_t steps, uint8_t n);
+
+    friend class Adafruit_DCMotor;   ///< Let DCMotors control the Shield
 
     void setPWM(uint8_t pin, uint16_t val);
     void setPin(uint8_t pin, boolean val);
-    Adafruit_DCMotor *getMotor(uint8_t n);
-    Adafruit_StepperMotor *getStepper(uint16_t steps, uint8_t n);
  private:
+    TwoWire *_i2c;
     uint8_t _addr;
     uint16_t _freq;
     Adafruit_DCMotor dcmotors[4];

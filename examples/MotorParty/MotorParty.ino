@@ -13,9 +13,8 @@ Connect a hobby servo to SERVO1
 */
 
 #include <Wire.h>
-#include <Adafruit_MotorShield.h>
-#include "utility/Adafruit_MS_PWMServoDriver.h"
 #include <Servo.h> 
+#include <Adafruit_MotorShield.h>
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
