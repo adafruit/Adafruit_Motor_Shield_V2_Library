@@ -1,10 +1,18 @@
-# Adafruit Motor Shield v2 Library
+# Adafruit Motor Shield v2 Library [![Build Status](https://travis-ci.org/adafruit/Adafruit_Motor_Shield_V2_Library.svg?branch=master)](https://travis-ci.org/adafruit/Adafruit_Motor_Shield_V2_Library)
 
-This is the library for the Adafruit Motor Shield V2 for Arduino. 
-It supports DC motors & Stepper motors with microstepping as well 
-as stacking-support. It is *not* compatible with the V1 library!
+<img src="https://cdn-shop.adafruit.com/1200x900/1438-00.jpg" height="300"/>
 
-It will only work with https://www.adafruit.com/products/1438
+This is the library for the Adafruit Motor Shield V2 for Arduino. It supports DC motors & Stepper motors with microstepping as well as stacking-support. It is *not* compatible with the V1 library!
+
+For use with the Motor Shield https://www.adafruit.com/products/1483
+and Motor FeatherWing https://www.adafruit.com/product/2927
+
+Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
+ 
+Written by Limor Fried/Ladyada for Adafruit Industries.
+BSD license, check license.txt for more information.
+All text above must be included in any redistribution.
+
 
 <!-- START COMPATIBILITY TABLE -->
 
@@ -37,11 +45,3 @@ STM32F2            |             |             |     X       |
   * ATtiny85 @ 8MHz : Adafruit Gemma, Arduino Gemma, Adafruit Trinket 3V
 
 <!-- END COMPATIBILITY TABLE -->
-
- Adafruit invests time and resources providing this open
- source code, please support Adafruit and open-source hardware
- by purchasing products from Adafruit!
- 
- Written by Limor Fried/Ladyada for Adafruit Industries.
- BSD license, check license.txt for more information.
- All text above must be included in any redistribution.
