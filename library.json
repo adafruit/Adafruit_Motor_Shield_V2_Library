@@ -1,0 +1,12 @@
+{
+    "name": "Adafruit-Motor-Shield-v2",
+    "keywords": "adafruit, motor",
+    "description": "Adafruit Industries: Adafruit Motor shield V2 firmware",
+    "repository":
+    {
+        "type": "git",
+        "url": "https://github.com/adafruit/Adafruit_Motor_Shield_V2_Library.git"
+    },
+    "frameworks": "arduino",
+    "platforms": "atmelavr"
+}
