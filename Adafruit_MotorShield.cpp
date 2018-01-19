@@ -309,7 +309,9 @@ void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir,  uint8_t style) {
     //Serial.println("step!"); Serial.println(uspers);
     ret = onestep(dir, style);
     delayMicroseconds(uspers);
+#ifdef ESP8266
     yield(); // required for ESP8266
+#endif
   }
 }
 
