@@ -226,6 +226,36 @@ void Adafruit_DCMotor::run(uint8_t cmd) {
     MC->setPin(IN2pin, LOW);
     break;
   }
+	
+	
+/**************************************************************************/
+/*!
+    @brief  Control the DC Motor using a single int like a zuma motor that ranges from
+       -255 (fast backward), 0 (stop), 255 (fast forward), like a Zuma motor
+
+*/
+/**************************************************************************/
+
+void Adafruit_DCMotor::runInt(int8_t speed) {
+  if (speed > 255) speed = 255;   //todo: send a warning message if possible. this shouldn't happen.	
+  if (speed < -255) speed = -255;  //todo: send a warning message if possible. this shouldn't happen.	
+	
+  if (speed>0) { //forward
+    MC->setPin(IN2pin, LOW);  // take low first to avoid 'break'
+    MC->setPin(IN1pin, HIGH);
+  }	  
+  if (speed < 0) { //reverse
+    MC->setPin(IN1pin, LOW);  // take low first to avoid 'break'
+    MC->setPin(IN2pin, HIGH);
+  }
+	  
+  if (speed == 0) {
+    MC->setPin(IN1pin, LOW);
+    MC->setPin(IN2pin, LOW);
+  } else 
+	  MC->setPWM(PWMpin, speed*16);
+
+ }
 }
 
 /**************************************************************************/
