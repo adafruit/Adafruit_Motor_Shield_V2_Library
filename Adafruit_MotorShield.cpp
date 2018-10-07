@@ -230,30 +230,62 @@ void Adafruit_DCMotor::run(uint8_t cmd) {
 	
 /**************************************************************************/
 /*!
+
+UNCOMPILED AND UNTESTED!
+
     @brief  Control the DC Motor using a single int like a zuma motor that ranges from
-       -255 (fast backward), 0 (stop), 255 (fast forward), like a Zuma motor
+       -255 (fast backward), 0 (stop), 255 (fast forward)
+
+it's based on this Arduino code (which compiles and seems to work so far): 
+
+#include <Adafruit_MotorShield.h>
+void intMotor (Adafruit_DCMotor *motor, int8_t speed) {
+  int8_t uspeed = 0;
+  if (speed > 255) speed = 255;   //todo: send a warning message if possible. this shouldn't happen.  
+  if (speed < -255) speed = -255;  //todo: send a warning message if possible. this shouldn't happen. 
+  
+  if (speed > 0) {            //forward
+    motor->run(FORWARD);
+    uspeed = speed;
+  }   
+  if (speed < 0) {            //reverse
+    motor->run(BACKWARD);
+    uspeed = -1 * speed;
+  }
+    
+  if (speed == 0) {
+    motor->run(RELEASE);
+  } else 
+  
+  motor->setSpeed(uspeed);
+ }
+
 
 */
 /**************************************************************************/
 
-void Adafruit_DCMotor::runInt(int8_t speed) {
-  if (speed > 255) speed = 255;   //todo: send a warning message if possible. this shouldn't happen.	
-  if (speed < -255) speed = -255;  //todo: send a warning message if possible. this shouldn't happen.	
+void Adafruit_DCMotor::runInt(int8_t zumaSpeed) {
+  uint8_t myspeed;
+  if (zumaSpeed > 255) zumaSpeed = 255;   //todo: send a warning message if possible. this shouldn't happen.	
+  if (zumaSpeed < -255) zumaSpeed = -255;  //todo: send a warning message if possible. this shouldn't happen.	
 	
-  if (speed>0) { //forward
+  if (zumaSpeed > 0) { //forward
     MC->setPin(IN2pin, LOW);  // take low first to avoid 'break'
     MC->setPin(IN1pin, HIGH);
+    myspeed = zumaSpeed;
   }	  
-  if (speed < 0) { //reverse
+  if (zumaSpeed < 0) { //reverse
     MC->setPin(IN1pin, LOW);  // take low first to avoid 'break'
     MC->setPin(IN2pin, HIGH);
+    myspeed = -1 * zumaSpeed;   
   }
 	  
-  if (speed == 0) {
+  if (zumaSpeed == 0) {
     MC->setPin(IN1pin, LOW);
     MC->setPin(IN2pin, LOW);
   } else 
-	  MC->setPWM(PWMpin, speed*16);
+	  
+    MC->setPWM(PWMpin, myspeed*16);   //copied from setSpeed below
 
  }
 }
