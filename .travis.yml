@@ -17,6 +17,8 @@ before_install:
 
 install:
    - arduino --install-library "Adafruit ILI9341","Adafruit GFX Library"
+   - arduino --install-library "Adafruit SSD1306"
+   - arduino --install-library "Adafruit GFX Library"
 
 script:
    - build_main_platforms
