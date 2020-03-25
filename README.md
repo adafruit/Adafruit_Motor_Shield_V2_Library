@@ -1,4 +1,4 @@
-# Adafruit Motor Shield v2 Library [![Build Status](https://travis-ci.org/adafruit/Adafruit_Motor_Shield_V2_Library.svg?branch=master)](https://travis-ci.org/adafruit/Adafruit_Motor_Shield_V2_Library)
+# Adafruit Motor Shield V2 Library [![Build Status](https://github.com/adafruit/Adafruit_Motor_Shield_V2_Library/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_Motor_Shield_V2_Library/actions)
 
 <img src="https://cdn-shop.adafruit.com/1200x900/1438-00.jpg" height="300"/>
 
