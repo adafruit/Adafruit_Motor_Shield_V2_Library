@@ -64,18 +64,32 @@ $(function() {
 <div class="title">Adafruit_MotorShield.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;Arduino.h&quot;</code><br />
-<code>#include &lt;Wire.h&gt;</code><br />
-<code>#include &quot;Adafruit_MotorShield.h&quot;</code><br />
+<div class="textblock"><code>#include &quot;Adafruit_MotorShield.h&quot;</code><br />
+<code>#include &quot;Arduino.h&quot;</code><br />
 <code>#include &lt;Adafruit_MS_PWMServoDriver.h&gt;</code><br />
+<code>#include &lt;Wire.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:af3dbeca059d6cd78ebfdc483aa15c355"><td class="memItemLeft" align="right" valign="top"><a id="af3dbeca059d6cd78ebfdc483aa15c355"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_adafruit___motor_shield_8cpp.html#af3dbeca059d6cd78ebfdc483aa15c355">microstepcurve</a> [] = {0, 25, 50, 74, 98, 120, 141, 162, 180, 197, 212, 225, 236, 244, 250, 253, 255}</td></tr>
-<tr class="memdesc:af3dbeca059d6cd78ebfdc483aa15c355"><td class="mdescLeft">&#160;</td><td class="mdescRight">! A sinusoial microstepping curve for the PWM output (8-bit range) with 17 points - last one is start of next step. <br /></td></tr>
+<tr class="memitem:af3dbeca059d6cd78ebfdc483aa15c355"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_adafruit___motor_shield_8cpp.html#af3dbeca059d6cd78ebfdc483aa15c355">microstepcurve</a> []</td></tr>
 <tr class="separator:af3dbeca059d6cd78ebfdc483aa15c355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="af3dbeca059d6cd78ebfdc483aa15c355"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3dbeca059d6cd78ebfdc483aa15c355">&#9670;&nbsp;</a></span>microstepcurve</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t microstepcurve[]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {0,   25,  50,  74,  98,  120, 141, 162, 180,</div><div class="line">                            197, 212, 225, 236, 244, 250, 253, 255}</div></div><!-- fragment --><p>! A sinusoial microstepping curve for the PWM output (8-bit range) with 17 points - last one is start of next step. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
