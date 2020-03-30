@@ -5,7 +5,7 @@
  *
  * @section intro_sec Introduction
  *
- * This is the library for the Adafruit Motor Shield V2 for Arduino. 
+ * This is the library for the Adafruit Motor Shield V2 for Arduino.
  * It supports DC motors & Stepper motors with microstepping as well
  * as stacking-support. It is *not* compatible with the V1 library!
  * For use with the Motor Shield https://www.adafruit.com/products/1483
@@ -28,19 +28,21 @@
  *
  */
 
-#include "Arduino.h"
-#include <Wire.h>
 #include "Adafruit_MotorShield.h"
+#include "Arduino.h"
 #include <Adafruit_MS_PWMServoDriver.h>
+#include <Wire.h>
 
 #if (MICROSTEPS == 8)
-///! A sinusoial microstepping curve for the PWM output (8-bit range) with 9 points - last one is start of next step.
+///! A sinusoial microstepping curve for the PWM output (8-bit range) with 9
+/// points - last one is start of next step.
 uint8_t microstepcurve[] = {0, 50, 98, 142, 180, 212, 236, 250, 255};
 #elif (MICROSTEPS == 16)
-///! A sinusoial microstepping curve for the PWM output (8-bit range) with 17 points - last one is start of next step.
-uint8_t microstepcurve[] = {0, 25, 50, 74, 98, 120, 141, 162, 180, 197, 212, 225, 236, 244, 250, 253, 255};
+///! A sinusoial microstepping curve for the PWM output (8-bit range) with 17
+/// points - last one is start of next step.
+uint8_t microstepcurve[] = {0,   25,  50,  74,  98,  120, 141, 162, 180,
+                            197, 212, 225, 236, 244, 250, 253, 255};
 #endif
-
 
 /**************************************************************************/
 /*!
@@ -53,7 +55,6 @@ Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) {
   _pwm = Adafruit_MS_PWMServoDriver(_addr);
 }
 
-
 /**************************************************************************/
 /*!
     @brief  Initialize the I2C hardware and PWM driver, then turn off all pins.
@@ -61,12 +62,12 @@ Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) {
     The PWM frequency for the driver, used for speed control and microstepping.
     By default we use 1600 Hz which is a little audible but efficient.
     @param    theWire
-    A pointer to an optional I2C interface. If not provided, we use Wire or Wire1
-    (on Due)
+    A pointer to an optional I2C interface. If not provided, we use Wire or
+   Wire1 (on Due)
 */
 /**************************************************************************/
 void Adafruit_MotorShield::begin(uint16_t freq, TwoWire *theWire) {
-  if (! theWire) {
+  if (!theWire) {
 #if defined(ARDUINO_SAM_DUE)
     _i2c = &Wire1;
 #else
@@ -80,23 +81,23 @@ void Adafruit_MotorShield::begin(uint16_t freq, TwoWire *theWire) {
   _i2c->begin();
   _pwm.begin();
   _freq = freq;
-  _pwm.setPWMFreq(_freq);  // This is the maximum PWM frequency
-  for (uint8_t i=0; i<16; i++) 
+  _pwm.setPWMFreq(_freq); // This is the maximum PWM frequency
+  for (uint8_t i = 0; i < 16; i++)
     _pwm.setPWM(i, 0, 0);
 }
-
 
 /**************************************************************************/
 /*!
     @brief  Helper that sets the PWM output on a pin and manages 'all on or off'
     @param  pin The PWM output on the driver that we want to control (0-15)
-    @param  value The 12-bit PWM value we want to set (0-4095) - 4096 is a special 'all on' value
+    @param  value The 12-bit PWM value we want to set (0-4095) - 4096 is a
+   special 'all on' value
 */
 /**************************************************************************/
 void Adafruit_MotorShield::setPWM(uint8_t pin, uint16_t value) {
   if (value > 4095) {
     _pwm.setPWM(pin, 4096, 0);
-  } else 
+  } else
     _pwm.setPWM(pin, 0, value);
 }
 
@@ -114,17 +115,17 @@ void Adafruit_MotorShield::setPin(uint8_t pin, boolean value) {
     _pwm.setPWM(pin, 4096, 0);
 }
 
-
 /**************************************************************************/
 /*!
-    @brief  Mini factory that will return a pointer to an already-allocated 
+    @brief  Mini factory that will return a pointer to an already-allocated
     Adafruit_DCMotor object. Initializes the DC motor and turns off all pins
     @param  num The DC motor port we want to use: 0 thru 3 are valid
     @returns NULL if something went wrong, or a pointer to a Adafruit_DCMotor
 */
 /**************************************************************************/
 Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
-  if (num > 4) return NULL;
+  if (num > 4)
+    return NULL;
 
   num--;
 
@@ -134,13 +135,21 @@ Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
     dcmotors[num].MC = this;
     uint8_t pwm, in1, in2;
     if (num == 0) {
-      pwm = 8; in2 = 9; in1 = 10;
+      pwm = 8;
+      in2 = 9;
+      in1 = 10;
     } else if (num == 1) {
-      pwm = 13; in2 = 12; in1 = 11;
+      pwm = 13;
+      in2 = 12;
+      in1 = 11;
     } else if (num == 2) {
-      pwm = 2; in2 = 3; in1 = 4;
+      pwm = 2;
+      in2 = 3;
+      in1 = 4;
     } else if (num == 3) {
-      pwm = 7; in2 = 6; in1 = 5;
+      pwm = 7;
+      in2 = 6;
+      in1 = 5;
     }
     dcmotors[num].PWMpin = pwm;
     dcmotors[num].IN1pin = in1;
@@ -151,16 +160,19 @@ Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
 
 /**************************************************************************/
 /*!
-    @brief  Mini factory that will return a pointer to an already-allocated 
-    Adafruit_StepperMotor object with a given 'steps per rotation. 
+    @brief  Mini factory that will return a pointer to an already-allocated
+    Adafruit_StepperMotor object with a given 'steps per rotation.
     Then initializes the stepper motor and turns off all pins.
     @param  steps How many steps per revolution (used for RPM calculation)
     @param  num The stepper motor port we want to use: only 0 or 1 are valid
-    @returns NULL if something went wrong, or a pointer to a Adafruit_StepperMotor
+    @returns NULL if something went wrong, or a pointer to a
+   Adafruit_StepperMotor
 */
 /**************************************************************************/
-Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps, uint8_t num) {
-  if (num > 2) return NULL;
+Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps,
+                                                        uint8_t num) {
+  if (num > 2)
+    return NULL;
 
   num--;
 
@@ -171,11 +183,19 @@ Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps, uint8_t 
     steppers[num].MC = this;
     uint8_t pwma, pwmb, ain1, ain2, bin1, bin2;
     if (num == 0) {
-      pwma = 8; ain2 = 9; ain1 = 10;
-      pwmb = 13; bin2 = 12; bin1 = 11;
+      pwma = 8;
+      ain2 = 9;
+      ain1 = 10;
+      pwmb = 13;
+      bin2 = 12;
+      bin1 = 11;
     } else if (num == 1) {
-      pwma = 2; ain2 = 3; ain1 = 4;
-      pwmb = 7; bin2 = 6; bin1 = 5;
+      pwma = 2;
+      ain2 = 3;
+      ain1 = 4;
+      pwmb = 7;
+      bin2 = 6;
+      bin1 = 5;
     }
     steppers[num].PWMApin = pwma;
     steppers[num].PWMBpin = pwmb;
@@ -187,7 +207,6 @@ Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps, uint8_t 
   return &steppers[num];
 }
 
-
 /******************************************
                MOTORS
 ******************************************/
@@ -195,7 +214,7 @@ Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps, uint8_t 
 /**************************************************************************/
 /*!
     @brief  Create a DCMotor object, un-initialized!
-    You should never call this, instead have the {@link Adafruit_MotorShield} 
+    You should never call this, instead have the {@link Adafruit_MotorShield}
     give you a DCMotor object with {@link Adafruit_MotorShield.getMotor}
 */
 /**************************************************************************/
@@ -214,11 +233,11 @@ Adafruit_DCMotor::Adafruit_DCMotor(void) {
 void Adafruit_DCMotor::run(uint8_t cmd) {
   switch (cmd) {
   case FORWARD:
-    MC->setPin(IN2pin, LOW);  // take low first to avoid 'break'
+    MC->setPin(IN2pin, LOW); // take low first to avoid 'break'
     MC->setPin(IN1pin, HIGH);
     break;
   case BACKWARD:
-    MC->setPin(IN1pin, LOW);  // take low first to avoid 'break'
+    MC->setPin(IN1pin, LOW); // take low first to avoid 'break'
     MC->setPin(IN2pin, HIGH);
     break;
   case RELEASE:
@@ -235,7 +254,7 @@ void Adafruit_DCMotor::run(uint8_t cmd) {
 */
 /**************************************************************************/
 void Adafruit_DCMotor::setSpeed(uint8_t speed) {
-  MC->setPWM(PWMpin, speed*16);
+  MC->setPWM(PWMpin, speed * 16);
 }
 
 /******************************************
@@ -245,14 +264,13 @@ void Adafruit_DCMotor::setSpeed(uint8_t speed) {
 /**************************************************************************/
 /*!
     @brief  Create a StepperMotor object, un-initialized!
-    You should never call this, instead have the {@link Adafruit_MotorShield} 
+    You should never call this, instead have the {@link Adafruit_MotorShield}
     give you a StepperMotor object with {@link Adafruit_MotorShield.getStepper}
 */
 /**************************************************************************/
 Adafruit_StepperMotor::Adafruit_StepperMotor(void) {
   revsteps = steppernum = currentstep = 0;
 }
-
 
 /**************************************************************************/
 /*!
@@ -261,8 +279,8 @@ Adafruit_StepperMotor::Adafruit_StepperMotor(void) {
 */
 /**************************************************************************/
 void Adafruit_StepperMotor::setSpeed(uint16_t rpm) {
-  //Serial.println("steps per rev: "); Serial.println(revsteps);
-  //Serial.println("RPM: "); Serial.println(rpm);
+  // Serial.println("steps per rev: "); Serial.println(revsteps);
+  // Serial.println("RPM: "); Serial.println(rpm);
 
   usperstep = 60000000 / ((uint32_t)revsteps * (uint32_t)rpm);
 }
@@ -283,30 +301,32 @@ void Adafruit_StepperMotor::release(void) {
 
 /**************************************************************************/
 /*!
-    @brief  Move the stepper motor with the given RPM speed, don't forget to call
+    @brief  Move the stepper motor with the given RPM speed, don't forget to
+   call
     {@link Adafruit_StepperMotor.setSpeed} to set the speed!
     @param  steps The number of steps we want to move
     @param  dir The direction to go, can be FORWARD or BACKWARD
-    @param  style How to perform each step, can be SINGLE, DOUBLE, INTERLEAVE or MICROSTEP
+    @param  style How to perform each step, can be SINGLE, DOUBLE, INTERLEAVE or
+   MICROSTEP
 */
 /**************************************************************************/
-void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir,  uint8_t style) {
+void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir, uint8_t style) {
   uint32_t uspers = usperstep;
   uint8_t ret = 0;
 
   if (style == INTERLEAVE) {
     uspers /= 2;
-  }
- else if (style == MICROSTEP) {
+  } else if (style == MICROSTEP) {
     uspers /= MICROSTEPS;
     steps *= MICROSTEPS;
 #ifdef MOTORDEBUG
-    Serial.print("steps = "); Serial.println(steps, DEC);
+    Serial.print("steps = ");
+    Serial.println(steps, DEC);
 #endif
   }
 
   while (steps--) {
-    //Serial.println("step!"); Serial.println(uspers);
+    // Serial.println("step!"); Serial.println(uspers);
     ret = onestep(dir, style);
     delayMicroseconds(uspers);
 #ifdef ESP8266
@@ -319,9 +339,11 @@ void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir,  uint8_t style) {
 /*!
     @brief  Move the stepper motor one step only, with no delays
     @param  dir The direction to go, can be FORWARD or BACKWARD
-    @param  style How to perform each step, can be SINGLE, DOUBLE, INTERLEAVE or MICROSTEP
-    @returns The current step/microstep index, useful for {@link Adafruit_StepperMotor.step} to keep
-    track of the current location, especially when microstepping
+    @param  style How to perform each step, can be SINGLE, DOUBLE, INTERLEAVE or
+   MICROSTEP
+    @returns The current step/microstep index, useful for
+   Adafruit_StepperMotor.step to keep track of the current location, especially
+   when microstepping
 */
 /**************************************************************************/
 uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
@@ -330,45 +352,42 @@ uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
 
   ocra = ocrb = 255;
 
-
   // next determine what sort of stepping procedure we're up to
   if (style == SINGLE) {
-    if ((currentstep/(MICROSTEPS/2)) % 2) { // we're at an odd step, weird
+    if ((currentstep / (MICROSTEPS / 2)) % 2) { // we're at an odd step, weird
       if (dir == FORWARD) {
-	currentstep += MICROSTEPS/2;
+        currentstep += MICROSTEPS / 2;
+      } else {
+        currentstep -= MICROSTEPS / 2;
       }
-      else {
-	currentstep -= MICROSTEPS/2;
-      }
-    } else {           // go to the next even step
+    } else { // go to the next even step
       if (dir == FORWARD) {
-	currentstep += MICROSTEPS;
-      }
-      else {
-	currentstep -= MICROSTEPS;
+        currentstep += MICROSTEPS;
+      } else {
+        currentstep -= MICROSTEPS;
       }
     }
   } else if (style == DOUBLE) {
-    if (! (currentstep/(MICROSTEPS/2) % 2)) { // we're at an even step, weird
+    if (!(currentstep / (MICROSTEPS / 2) % 2)) { // we're at an even step, weird
       if (dir == FORWARD) {
-	currentstep += MICROSTEPS/2;
+        currentstep += MICROSTEPS / 2;
       } else {
-	currentstep -= MICROSTEPS/2;
+        currentstep -= MICROSTEPS / 2;
       }
-    } else {           // go to the next odd step
+    } else { // go to the next odd step
       if (dir == FORWARD) {
-	currentstep += MICROSTEPS;
+        currentstep += MICROSTEPS;
       } else {
-	currentstep -= MICROSTEPS;
+        currentstep -= MICROSTEPS;
       }
     }
   } else if (style == INTERLEAVE) {
     if (dir == FORWARD) {
-       currentstep += MICROSTEPS/2;
+      currentstep += MICROSTEPS / 2;
     } else {
-       currentstep -= MICROSTEPS/2;
+      currentstep -= MICROSTEPS / 2;
     }
-  } 
+  }
 
   if (style == MICROSTEP) {
     if (dir == FORWARD) {
@@ -378,52 +397,56 @@ uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
       currentstep--;
     }
 
-    currentstep += MICROSTEPS*4;
-    currentstep %= MICROSTEPS*4;
+    currentstep += MICROSTEPS * 4;
+    currentstep %= MICROSTEPS * 4;
 
     ocra = ocrb = 0;
-    if ( (currentstep >= 0) && (currentstep < MICROSTEPS)) {
+    if ((currentstep >= 0) && (currentstep < MICROSTEPS)) {
       ocra = microstepcurve[MICROSTEPS - currentstep];
       ocrb = microstepcurve[currentstep];
-    } else if  ( (currentstep >= MICROSTEPS) && (currentstep < MICROSTEPS*2)) {
+    } else if ((currentstep >= MICROSTEPS) && (currentstep < MICROSTEPS * 2)) {
       ocra = microstepcurve[currentstep - MICROSTEPS];
-      ocrb = microstepcurve[MICROSTEPS*2 - currentstep];
-    } else if  ( (currentstep >= MICROSTEPS*2) && (currentstep < MICROSTEPS*3)) {
-      ocra = microstepcurve[MICROSTEPS*3 - currentstep];
-      ocrb = microstepcurve[currentstep - MICROSTEPS*2];
-    } else if  ( (currentstep >= MICROSTEPS*3) && (currentstep < MICROSTEPS*4)) {
-      ocra = microstepcurve[currentstep - MICROSTEPS*3];
-      ocrb = microstepcurve[MICROSTEPS*4 - currentstep];
+      ocrb = microstepcurve[MICROSTEPS * 2 - currentstep];
+    } else if ((currentstep >= MICROSTEPS * 2) &&
+               (currentstep < MICROSTEPS * 3)) {
+      ocra = microstepcurve[MICROSTEPS * 3 - currentstep];
+      ocrb = microstepcurve[currentstep - MICROSTEPS * 2];
+    } else if ((currentstep >= MICROSTEPS * 3) &&
+               (currentstep < MICROSTEPS * 4)) {
+      ocra = microstepcurve[currentstep - MICROSTEPS * 3];
+      ocrb = microstepcurve[MICROSTEPS * 4 - currentstep];
     }
   }
 
-  currentstep += MICROSTEPS*4;
-  currentstep %= MICROSTEPS*4;
+  currentstep += MICROSTEPS * 4;
+  currentstep %= MICROSTEPS * 4;
 
 #ifdef MOTORDEBUG
-  Serial.print("current step: "); Serial.println(currentstep, DEC);
-  Serial.print(" pwmA = "); Serial.print(ocra, DEC); 
-  Serial.print(" pwmB = "); Serial.println(ocrb, DEC); 
+  Serial.print("current step: ");
+  Serial.println(currentstep, DEC);
+  Serial.print(" pwmA = ");
+  Serial.print(ocra, DEC);
+  Serial.print(" pwmB = ");
+  Serial.println(ocrb, DEC);
 #endif
-  MC->setPWM(PWMApin, ocra*16);
-  MC->setPWM(PWMBpin, ocrb*16);
-  
+  MC->setPWM(PWMApin, ocra * 16);
+  MC->setPWM(PWMBpin, ocrb * 16);
 
   // release all
   uint8_t latch_state = 0; // all motor pins to 0
 
-  //Serial.println(step, DEC);
+  // Serial.println(step, DEC);
   if (style == MICROSTEP) {
     if ((currentstep >= 0) && (currentstep < MICROSTEPS))
       latch_state |= 0x03;
-    if ((currentstep >= MICROSTEPS) && (currentstep < MICROSTEPS*2))
+    if ((currentstep >= MICROSTEPS) && (currentstep < MICROSTEPS * 2))
       latch_state |= 0x06;
-    if ((currentstep >= MICROSTEPS*2) && (currentstep < MICROSTEPS*3))
+    if ((currentstep >= MICROSTEPS * 2) && (currentstep < MICROSTEPS * 3))
       latch_state |= 0x0C;
-    if ((currentstep >= MICROSTEPS*3) && (currentstep < MICROSTEPS*4))
+    if ((currentstep >= MICROSTEPS * 3) && (currentstep < MICROSTEPS * 4))
       latch_state |= 0x09;
   } else {
-    switch (currentstep/(MICROSTEPS/2)) {
+    switch (currentstep / (MICROSTEPS / 2)) {
     case 0:
       latch_state |= 0x1; // energize coil 1 only
       break;
@@ -438,7 +461,7 @@ uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
       break;
     case 4:
       latch_state |= 0x4; // energize coil 3 only
-      break; 
+      break;
     case 5:
       latch_state |= 0xC; // energize coil 3+4
       break;
@@ -451,34 +474,34 @@ uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
     }
   }
 #ifdef MOTORDEBUG
-  Serial.print("Latch: 0x"); Serial.println(latch_state, HEX);
+  Serial.print("Latch: 0x");
+  Serial.println(latch_state, HEX);
 #endif
 
   if (latch_state & 0x1) {
-   // Serial.println(AIN2pin);
+    // Serial.println(AIN2pin);
     MC->setPin(AIN2pin, HIGH);
   } else {
     MC->setPin(AIN2pin, LOW);
   }
   if (latch_state & 0x2) {
     MC->setPin(BIN1pin, HIGH);
-   // Serial.println(BIN1pin);
+    // Serial.println(BIN1pin);
   } else {
     MC->setPin(BIN1pin, LOW);
   }
   if (latch_state & 0x4) {
     MC->setPin(AIN1pin, HIGH);
-   // Serial.println(AIN1pin);
+    // Serial.println(AIN1pin);
   } else {
     MC->setPin(AIN1pin, LOW);
   }
   if (latch_state & 0x8) {
     MC->setPin(BIN2pin, HIGH);
-   // Serial.println(BIN2pin);
+    // Serial.println(BIN2pin);
   } else {
     MC->setPin(BIN2pin, LOW);
   }
 
   return currentstep;
 }
-
