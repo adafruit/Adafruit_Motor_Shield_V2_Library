@@ -119,7 +119,7 @@ void Adafruit_MotorShield::setPin(uint8_t pin, boolean value) {
 /*!
     @brief  Mini factory that will return a pointer to an already-allocated
     Adafruit_DCMotor object. Initializes the DC motor and turns off all pins
-    @param  num The DC motor port we want to use: 0 thru 3 are valid
+    @param  num The DC motor port we want to use: 1 thru 4 are valid
     @returns NULL if something went wrong, or a pointer to a Adafruit_DCMotor
 */
 /**************************************************************************/
@@ -164,7 +164,7 @@ Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
     Adafruit_StepperMotor object with a given 'steps per rotation.
     Then initializes the stepper motor and turns off all pins.
     @param  steps How many steps per revolution (used for RPM calculation)
-    @param  num The stepper motor port we want to use: only 0 or 1 are valid
+    @param  num The stepper motor port we want to use: only 1 or 2 are valid
     @returns NULL if something went wrong, or a pointer to a
    Adafruit_StepperMotor
 */
@@ -312,7 +312,6 @@ void Adafruit_StepperMotor::release(void) {
 /**************************************************************************/
 void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir, uint8_t style) {
   uint32_t uspers = usperstep;
-  uint8_t ret = 0;
 
   if (style == INTERLEAVE) {
     uspers /= 2;
@@ -327,7 +326,7 @@ void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir, uint8_t style) {
 
   while (steps--) {
     // Serial.println("step!"); Serial.println(uspers);
-    ret = onestep(dir, style);
+    onestep(dir, style);
     delayMicroseconds(uspers);
 #ifdef ESP8266
     yield(); // required for ESP8266
@@ -347,7 +346,6 @@ void Adafruit_StepperMotor::step(uint16_t steps, uint8_t dir, uint8_t style) {
 */
 /**************************************************************************/
 uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
-  uint8_t a, b, c, d;
   uint8_t ocrb, ocra;
 
   ocra = ocrb = 255;
@@ -401,7 +399,7 @@ uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
     currentstep %= MICROSTEPS * 4;
 
     ocra = ocrb = 0;
-    if ((currentstep >= 0) && (currentstep < MICROSTEPS)) {
+    if (currentstep < MICROSTEPS) {
       ocra = microstepcurve[MICROSTEPS - currentstep];
       ocrb = microstepcurve[currentstep];
     } else if ((currentstep >= MICROSTEPS) && (currentstep < MICROSTEPS * 2)) {
@@ -437,7 +435,7 @@ uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
 
   // Serial.println(step, DEC);
   if (style == MICROSTEP) {
-    if ((currentstep >= 0) && (currentstep < MICROSTEPS))
+    if (currentstep < MICROSTEPS)
       latch_state |= 0x03;
     if ((currentstep >= MICROSTEPS) && (currentstep < MICROSTEPS * 2))
       latch_state |= 0x06;
