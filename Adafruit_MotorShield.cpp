@@ -36,12 +36,12 @@
 #if (MICROSTEPS == 8)
 ///! A sinusoial microstepping curve for the PWM output (8-bit range) with 9
 /// points - last one is start of next step.
-uint8_t microstepcurve[] = {0, 50, 98, 142, 180, 212, 236, 250, 255};
+static uint8_t microstepcurve[] = {0, 50, 98, 142, 180, 212, 236, 250, 255};
 #elif (MICROSTEPS == 16)
 ///! A sinusoial microstepping curve for the PWM output (8-bit range) with 17
 /// points - last one is start of next step.
-uint8_t microstepcurve[] = {0,   25,  50,  74,  98,  120, 141, 162, 180,
-                            197, 212, 225, 236, 244, 250, 253, 255};
+static uint8_t microstepcurve[] = {0,   25,  50,  74,  98,  120, 141, 162, 180,
+                                   197, 212, 225, 236, 244, 250, 253, 255};
 #endif
 
 /**************************************************************************/
