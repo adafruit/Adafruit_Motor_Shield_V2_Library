@@ -36,12 +36,12 @@
 #if (MICROSTEPS == 8)
 ///! A sinusoial microstepping curve for the PWM output (8-bit range) with 9
 /// points - last one is start of next step.
-uint8_t microstepcurve_v2[] = {0, 50, 98, 142, 180, 212, 236, 250, 255};
+static uint8_t microstepcurve[] = {0, 50, 98, 142, 180, 212, 236, 250, 255};
 #elif (MICROSTEPS == 16)
 ///! A sinusoial microstepping curve for the PWM output (8-bit range) with 17
 /// points - last one is start of next step.
-uint8_t microstepcurve_v2[] = {0,   25,  50,  74,  98,  120, 141, 162, 180,
-                               197, 212, 225, 236, 244, 250, 253, 255};
+static uint8_t microstepcurve[] = {0,   25,  50,  74,  98,  120, 141, 162, 180,
+                            197, 212, 225, 236, 244, 250, 253, 255};
 #endif
 
 /**************************************************************************/
@@ -400,19 +400,19 @@ uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
 
     ocra = ocrb = 0;
     if (currentstep < MICROSTEPS) {
-      ocra = microstepcurve_v2[MICROSTEPS - currentstep];
-      ocrb = microstepcurve_v2[currentstep];
+      ocra = microstepcurve[MICROSTEPS - currentstep];
+      ocrb = microstepcurve[currentstep];
     } else if ((currentstep >= MICROSTEPS) && (currentstep < MICROSTEPS * 2)) {
-      ocra = microstepcurve_v2[currentstep - MICROSTEPS];
-      ocrb = microstepcurve_v2[MICROSTEPS * 2 - currentstep];
+      ocra = microstepcurve[currentstep - MICROSTEPS];
+      ocrb = microstepcurve[MICROSTEPS * 2 - currentstep];
     } else if ((currentstep >= MICROSTEPS * 2) &&
                (currentstep < MICROSTEPS * 3)) {
-      ocra = microstepcurve_v2[MICROSTEPS * 3 - currentstep];
-      ocrb = microstepcurve_v2[currentstep - MICROSTEPS * 2];
+      ocra = microstepcurve[MICROSTEPS * 3 - currentstep];
+      ocrb = microstepcurve[currentstep - MICROSTEPS * 2];
     } else if ((currentstep >= MICROSTEPS * 3) &&
                (currentstep < MICROSTEPS * 4)) {
-      ocra = microstepcurve_v2[currentstep - MICROSTEPS * 3];
-      ocrb = microstepcurve_v2[MICROSTEPS * 4 - currentstep];
+      ocra = microstepcurve[currentstep - MICROSTEPS * 3];
+      ocrb = microstepcurve[MICROSTEPS * 4 - currentstep];
     }
   }
 
