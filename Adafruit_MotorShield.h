@@ -18,7 +18,6 @@
 #define _Adafruit_MotorShield_h_
 
 #include "utility/Adafruit_MS_PWMServoDriver.h"
-#include <Wire.h>
 #include <inttypes.h>
 
 //#define MOTORDEBUG
@@ -89,7 +88,7 @@ class Adafruit_MotorShield {
 public:
   Adafruit_MotorShield(uint8_t addr = 0x60);
 
-  void begin(uint16_t freq = 1600, TwoWire *theWire = NULL);
+  bool begin(uint16_t freq = 1600, TwoWire *theWire = &Wire);
   Adafruit_DCMotor *getMotor(uint8_t n);
   Adafruit_StepperMotor *getStepper(uint16_t steps, uint8_t n);
 
@@ -99,7 +98,6 @@ public:
   void setPin(uint8_t pin, boolean val);
 
 private:
-  TwoWire *_i2c;
   uint8_t _addr;
   uint16_t _freq;
   Adafruit_DCMotor dcmotors[4];

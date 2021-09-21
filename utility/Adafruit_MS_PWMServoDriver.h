@@ -24,6 +24,8 @@
 #include "WProgram.h"
 #endif
 
+#include <Adafruit_I2CDevice.h>
+
 #define PCA9685_SUBADR1 0x2
 #define PCA9685_SUBADR2 0x3
 #define PCA9685_SUBADR3 0x4
@@ -44,13 +46,14 @@
 class Adafruit_MS_PWMServoDriver {
 public:
   Adafruit_MS_PWMServoDriver(uint8_t addr = 0x40);
-  void begin(void);
+  bool begin(TwoWire *theWire = &Wire);
   void reset(void);
   void setPWMFreq(float freq);
   void setPWM(uint8_t num, uint16_t on, uint16_t off);
 
 private:
   uint8_t _i2caddr;
+  Adafruit_I2CDevice *i2c_dev = NULL; ///< Pointer to I2C bus interface
 
   uint8_t read8(uint8_t addr);
   void write8(uint8_t addr, uint8_t d);

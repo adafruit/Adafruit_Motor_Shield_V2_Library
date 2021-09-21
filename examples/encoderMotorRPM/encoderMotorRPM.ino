@@ -11,7 +11,7 @@
 #define ENCODERMULT 12
 
 // Create the motor shield object with the default I2C address
-Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
+Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 // And connect a DC motor to port M1
 Adafruit_DCMotor *myMotor = AFMS.getMotor(1);
 // We'll display the speed/direction on the OLED
@@ -50,7 +50,7 @@ void setup() {
   attachInterrupt(ENCODER_A, interruptA, RISING);
 
   delay(100);
-  
+
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3C for 128x32
     Serial.println(F("SSD1306 allocation failed"));
@@ -59,12 +59,16 @@ void setup() {
   display.display();
   display.setTextSize(2);
   display.setTextColor(WHITE);
-  
+
   //while (!Serial) delay(1);
 
   Serial.println("MMMMotor party!");
-  AFMS.begin();  // create with the default frequency 1.6KHz
-  Serial.println("Begun");  
+  if (!AFMS.begin()) {         // create with the default frequency 1.6KHz
+  // if (!AFMS.begin(1000)) {  // OR with a different frequency, say 1KHz
+    Serial.println("Could not find Motor Shield. Check wiring.");
+    while (1);
+  }
+  Serial.println("Motor Shield found.");  Serial.println("Begun");
   // turn on motor M1
   myMotor->setSpeed(0);
 }
@@ -72,7 +76,7 @@ void setup() {
 void printRPM() {
     display.clearDisplay();
     display.setCursor(0,0);
-  
+
     Serial.print("Direction: ");
     if (motordir) {
       display.println("Forward");
@@ -82,7 +86,7 @@ void printRPM() {
       Serial.println("backward @ ");
     }
     display.print((int)RPM); display.println(" RPM");
-    Serial.print((int)RPM); Serial.println(" RPM"); 
+    Serial.print((int)RPM); Serial.println(" RPM");
     display.display();
 }
 
@@ -91,26 +95,26 @@ void loop() {
   delay(50);
   myMotor->run(FORWARD);
   for (i=0; i<255; i++) {
-    myMotor->setSpeed(i);  
+    myMotor->setSpeed(i);
     delay(20);
     printRPM();
   }
 
   for (i=255; i!=0; i--) {
-    myMotor->setSpeed(i);  
+    myMotor->setSpeed(i);
     delay(20);
     printRPM();
   }
 
   myMotor->run(BACKWARD);
   for (i=0; i<255; i++) {
-    myMotor->setSpeed(i);  
+    myMotor->setSpeed(i);
     delay(20);
     printRPM();
   }
 
   for (i=255; i!=0; i--) {
-    myMotor->setSpeed(i);  
+    myMotor->setSpeed(i);
     delay(20);
     printRPM();
   }

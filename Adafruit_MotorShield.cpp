@@ -31,7 +31,6 @@
 #include "Adafruit_MotorShield.h"
 #include "Arduino.h"
 #include <Adafruit_MS_PWMServoDriver.h>
-#include <Wire.h>
 
 #if (MICROSTEPS == 8)
 ///! A sinusoial microstepping curve for the PWM output (8-bit range) with 9
@@ -50,10 +49,7 @@ static uint8_t microstepcurve[] = {0,   25,  50,  74,  98,  120, 141, 162, 180,
     @param  addr Optional I2C address if you've changed it
 */
 /**************************************************************************/
-Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) {
-  _addr = addr;
-  _pwm = Adafruit_MS_PWMServoDriver(_addr);
-}
+Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) { _addr = addr; }
 
 /**************************************************************************/
 /*!
@@ -64,26 +60,19 @@ Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) {
     @param    theWire
     A pointer to an optional I2C interface. If not provided, we use Wire or
    Wire1 (on Due)
+    @returns true if successful, false otherwise
 */
 /**************************************************************************/
-void Adafruit_MotorShield::begin(uint16_t freq, TwoWire *theWire) {
-  if (!theWire) {
-#if defined(ARDUINO_SAM_DUE)
-    _i2c = &Wire1;
-#else
-    _i2c = &Wire;
-#endif
-  } else {
-    _i2c = theWire;
-  }
-
+bool Adafruit_MotorShield::begin(uint16_t freq, TwoWire *theWire) {
   // init PWM w/_freq
-  _i2c->begin();
-  _pwm.begin();
+  _pwm = Adafruit_MS_PWMServoDriver(_addr);
+  if (!_pwm.begin(theWire))
+    return false;
   _freq = freq;
   _pwm.setPWMFreq(_freq); // This is the maximum PWM frequency
   for (uint8_t i = 0; i < 16; i++)
     _pwm.setPWM(i, 0, 0);
+  return true;
 }
 
 /**************************************************************************/
