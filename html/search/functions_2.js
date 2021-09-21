@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['getmotor',['getMotor',['../class_adafruit___motor_shield.html#aeeca8f6118bf10fda36bde1c5995f5a4',1,'Adafruit_MotorShield']]],
-  ['getstepper',['getStepper',['../class_adafruit___motor_shield.html#a27337c66124936454c725a9ce8ba8c12',1,'Adafruit_MotorShield']]]
+  ['fulloff',['fullOff',['../class_adafruit___d_c_motor.html#ab7ae1a470ce3726db1bab0704607f4e0',1,'Adafruit_DCMotor']]],
+  ['fullon',['fullOn',['../class_adafruit___d_c_motor.html#a3060ab8cb723fe1c4e4781e41201292e',1,'Adafruit_DCMotor']]]
 ];
