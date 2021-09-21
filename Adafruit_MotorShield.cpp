@@ -60,6 +60,7 @@ Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) { _addr = addr; }
     @param    theWire
     A pointer to an optional I2C interface. If not provided, we use Wire or
    Wire1 (on Due)
+    @returns true if successful, false otherwise
 */
 /**************************************************************************/
 bool Adafruit_MotorShield::begin(uint16_t freq, TwoWire *theWire) {
