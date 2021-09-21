@@ -52,6 +52,8 @@ public:
   friend class Adafruit_MotorShield; ///< Let MotorShield create DCMotors
   void run(uint8_t);
   void setSpeed(uint8_t);
+  void fullOn();
+  void fullOff();
 
 private:
   uint8_t PWMpin, IN1pin, IN2pin;
