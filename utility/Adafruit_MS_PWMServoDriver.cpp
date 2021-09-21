@@ -28,6 +28,7 @@ bool Adafruit_MS_PWMServoDriver::begin(TwoWire *theWire) {
   if (!i2c_dev->begin())
     return false;
   reset();
+  return true;
 }
 
 void Adafruit_MS_PWMServoDriver::reset(void) { write8(PCA9685_MODE1, 0x0); }
