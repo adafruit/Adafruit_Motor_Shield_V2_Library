@@ -74,9 +74,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ace00323eadbeae355bae2b982dc26e94"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___motor_shield.html#ace00323eadbeae355bae2b982dc26e94">Adafruit_MotorShield</a> (uint8_t addr=0x60)</td></tr>
 <tr class="memdesc:ace00323eadbeae355bae2b982dc26e94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the Motor Shield object at an I2C address, default is 0x60.  <a href="#ace00323eadbeae355bae2b982dc26e94">More...</a><br /></td></tr>
 <tr class="separator:ace00323eadbeae355bae2b982dc26e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96e0da77dcc865279404ff48e42b55b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___motor_shield.html#a96e0da77dcc865279404ff48e42b55b7">begin</a> (uint16_t freq=1600, TwoWire *theWire=NULL)</td></tr>
-<tr class="memdesc:a96e0da77dcc865279404ff48e42b55b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the I2C hardware and PWM driver, then turn off all pins.  <a href="#a96e0da77dcc865279404ff48e42b55b7">More...</a><br /></td></tr>
-<tr class="separator:a96e0da77dcc865279404ff48e42b55b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2bd0e50c89bdd41996939f1c4a43c3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___motor_shield.html#ac2bd0e50c89bdd41996939f1c4a43c3f">begin</a> (uint16_t freq=1600, TwoWire *theWire=&amp;Wire)</td></tr>
+<tr class="memdesc:ac2bd0e50c89bdd41996939f1c4a43c3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the I2C hardware and PWM driver, then turn off all pins.  <a href="#ac2bd0e50c89bdd41996939f1c4a43c3f">More...</a><br /></td></tr>
+<tr class="separator:ac2bd0e50c89bdd41996939f1c4a43c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeeca8f6118bf10fda36bde1c5995f5a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_adafruit___d_c_motor.html">Adafruit_DCMotor</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___motor_shield.html#aeeca8f6118bf10fda36bde1c5995f5a4">getMotor</a> (uint8_t n)</td></tr>
 <tr class="memdesc:aeeca8f6118bf10fda36bde1c5995f5a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mini factory that will return a pointer to an already-allocated <a class="el" href="class_adafruit___d_c_motor.html">Adafruit_DCMotor</a> object. Initializes the DC motor and turns off all pins.  <a href="#aeeca8f6118bf10fda36bde1c5995f5a4">More...</a><br /></td></tr>
 <tr class="separator:aeeca8f6118bf10fda36bde1c5995f5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,14 +127,14 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a96e0da77dcc865279404ff48e42b55b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96e0da77dcc865279404ff48e42b55b7">&#9670;&nbsp;</a></span>begin()</h2>
+<a id="ac2bd0e50c89bdd41996939f1c4a43c3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2bd0e50c89bdd41996939f1c4a43c3f">&#9670;&nbsp;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Adafruit_MotorShield::begin </td>
+          <td class="memname">bool Adafruit_MotorShield::begin </td>
           <td>(</td>
           <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>freq</em> = <code>1600</code>, </td>
@@ -143,7 +143,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">TwoWire *&#160;</td>
-          <td class="paramname"><em>theWire</em> = <code>NULL</code>&#160;</td>
+          <td class="paramname"><em>theWire</em> = <code>&amp;Wire</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -161,6 +161,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true if successful, false otherwise </dd></dl>
 
 </div>
 </div>
