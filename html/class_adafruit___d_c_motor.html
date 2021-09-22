@@ -81,6 +81,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a237f54e43a94ee9836fbb8559ba3b7cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___d_c_motor.html#a237f54e43a94ee9836fbb8559ba3b7cc">setSpeed</a> (uint8_t)</td></tr>
 <tr class="memdesc:a237f54e43a94ee9836fbb8559ba3b7cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control the DC Motor speed/throttle.  <a href="#a237f54e43a94ee9836fbb8559ba3b7cc">More...</a><br /></td></tr>
 <tr class="separator:a237f54e43a94ee9836fbb8559ba3b7cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac24f321579fbee4fa6ccf4443597ed26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___d_c_motor.html#ac24f321579fbee4fa6ccf4443597ed26">setSpeedFine</a> (uint16_t speed)</td></tr>
+<tr class="memdesc:ac24f321579fbee4fa6ccf4443597ed26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control the DC Motor speed/throttle with 12 bit resolution.  <a href="#ac24f321579fbee4fa6ccf4443597ed26">More...</a><br /></td></tr>
+<tr class="separator:ac24f321579fbee4fa6ccf4443597ed26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3060ab8cb723fe1c4e4781e41201292e"><td class="memItemLeft" align="right" valign="top"><a id="a3060ab8cb723fe1c4e4781e41201292e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___d_c_motor.html#a3060ab8cb723fe1c4e4781e41201292e">fullOn</a> ()</td></tr>
 <tr class="memdesc:a3060ab8cb723fe1c4e4781e41201292e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set DC motor to full on. <br /></td></tr>
@@ -146,6 +149,32 @@ class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">speed</td><td>The 8-bit PWM value, 0 is off, 255 is on </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac24f321579fbee4fa6ccf4443597ed26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac24f321579fbee4fa6ccf4443597ed26">&#9670;&nbsp;</a></span>setSpeedFine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Adafruit_DCMotor::setSpeedFine </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>speed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Control the DC Motor speed/throttle with 12 bit resolution. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speed</td><td>The 12-bit PWM value, 0 (full off) to 4095 (full on) </td></tr>
   </table>
   </dd>
 </dl>
