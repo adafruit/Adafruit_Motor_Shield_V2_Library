@@ -248,6 +248,16 @@ void Adafruit_DCMotor::setSpeed(uint8_t speed) {
 
 /**************************************************************************/
 /*!
+    @brief  Control the DC Motor speed/throttle with 12 bit resolution.
+    @param  speed The 12-bit PWM value, 0 (full off) to 4095 (full on)
+*/
+/**************************************************************************/
+void Adafruit_DCMotor::setSpeedFine(uint16_t speed) {
+  MC->setPWM(PWMpin, speed > 4095 ? 4095 : speed);
+}
+
+/**************************************************************************/
+/*!
     @brief  Set DC motor to full on.
 */
 /**************************************************************************/
