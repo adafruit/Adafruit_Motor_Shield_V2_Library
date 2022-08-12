@@ -122,23 +122,28 @@ Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
     // not init'd yet!
     dcmotors[num].motornum = num;
     dcmotors[num].MC = this;
-    uint8_t pwm, in1, in2;
-    if (num == 0) {
-      pwm = 8;
-      in2 = 9;
-      in1 = 10;
-    } else if (num == 1) {
-      pwm = 13;
-      in2 = 12;
-      in1 = 11;
-    } else if (num == 2) {
-      pwm = 2;
-      in2 = 3;
-      in1 = 4;
-    } else if (num == 3) {
-      pwm = 7;
-      in2 = 6;
-      in1 = 5;
+    uint8_t pwm, in1, in2;  // could directly set dcmotors[num].(name) but this looks cleaner
+    switch (num) { 
+      case 0:
+        pwm = 8;
+        in2 = 9;
+        in1 = 10;
+        break;
+      case 1:
+        pwm = 13;
+        in2 = 12;
+        in1 = 11;
+        break;
+      case 2:
+        pwm = 2;
+        in2 = 3;
+        in1 = 4;
+        break;
+      case 3:
+        pwm = 7;
+        in2 = 6;
+        in1 = 5;
+        break;
     }
     dcmotors[num].PWMpin = pwm;
     dcmotors[num].IN1pin = in1;
