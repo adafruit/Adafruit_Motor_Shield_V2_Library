@@ -183,7 +183,7 @@ Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps,
       pwmb = 13;
       bin2 = 12;
       bin1 = 11;
-    } else if (num == 1) {
+    } else {
       pwma = 2;
       ain2 = 3;
       ain1 = 4;
