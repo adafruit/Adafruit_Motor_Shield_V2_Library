@@ -221,7 +221,12 @@ Adafruit_DCMotor::Adafruit_DCMotor(void) {
 /**************************************************************************/
 /*!
     @brief  Control the DC Motor direction and action
-    @param  cmd The action to perform, can be FORWARD, BACKWARD or RELEASE
+    @param  cmd The action to perform, can be FORWARD, BACKWARD, RELEASE,
+	of BRAKE.  BRAKE is intended to implement the "short-brake" supported by
+	the motor driver chip and should only be used for short durations (<100ms) 
+	and	only after slowing the motor from full speed first.  It is not
+	intended to prevent the motor from free-spinning while not in motion but
+	to counteract the motor's inertia while in motion.
 */
 /**************************************************************************/
 void Adafruit_DCMotor::run(uint8_t cmd) {
@@ -237,6 +242,10 @@ void Adafruit_DCMotor::run(uint8_t cmd) {
   case RELEASE:
     MC->setPin(IN1pin, LOW);
     MC->setPin(IN2pin, LOW);
+    break;
+  case BRAKE:
+    MC->setPin(IN1pin, HIGH);
+    MC->setPin(IN2pin, HIGH);
     break;
   }
 }
