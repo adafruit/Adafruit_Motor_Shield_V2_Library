@@ -26,11 +26,22 @@
 
 #include <Adafruit_I2CDevice.h>
 
+#ifndef PCA9685_SUBADR1
 #define PCA9685_SUBADR1 0x2
-#define PCA9685_SUBADR2 0x3
-#define PCA9685_SUBADR3 0x4
+#endif
 
+#ifndef PCA9685_SUBADR2
+#define PCA9685_SUBADR2 0x3
+#endif
+
+#ifndef PCA9685_SUBADR3
+#define PCA9685_SUBADR3 0x4
+#endif
+
+#ifndef PCA9685_MODE1
 #define PCA9685_MODE1 0x0
+#endif
+
 #define PCA9685_PRESCALE 0xFE
 
 #define LED0_ON_L 0x6
