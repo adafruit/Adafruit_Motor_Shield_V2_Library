@@ -59,7 +59,7 @@ public:
 private:
   uint8_t PWMpin, IN1pin, IN2pin;
   Adafruit_MotorShield *MC;
-  uint8_t motornum;
+  uint8_t init;
 };
 
 /** Object that controls and keeps state for a single stepper motor */
@@ -82,7 +82,7 @@ private:
   uint16_t revsteps; // # steps per revolution
   uint8_t currentstep;
   Adafruit_MotorShield *MC;
-  uint8_t steppernum;
+  uint8_t init;
 };
 
 /** Object that controls and keeps state for the whole motor shield.
