@@ -21,7 +21,7 @@ Adafruit_MS_PWMServoDriver::Adafruit_MS_PWMServoDriver(uint8_t addr) {
   _i2caddr = addr;
 }
 
-bool Adafruit_MS_PWMServoDriver::begin(TwoWire *theWire) {
+bool Adafruit_MS_PWMServoDriver::begin(TwoWire* theWire) {
   if (i2c_dev)
     delete i2c_dev;
   i2c_dev = new Adafruit_I2CDevice(_i2caddr, theWire);
@@ -31,7 +31,9 @@ bool Adafruit_MS_PWMServoDriver::begin(TwoWire *theWire) {
   return true;
 }
 
-void Adafruit_MS_PWMServoDriver::reset(void) { write8(PCA9685_MODE1, 0x0); }
+void Adafruit_MS_PWMServoDriver::reset(void) {
+  write8(PCA9685_MODE1, 0x0);
+}
 
 void Adafruit_MS_PWMServoDriver::setPWMFreq(float freq) {
   // Serial.print("Attempting to set freq ");
