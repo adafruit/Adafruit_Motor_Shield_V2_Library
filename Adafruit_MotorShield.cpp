@@ -29,8 +29,10 @@
  */
 
 #include "Adafruit_MotorShield.h"
-#include "Arduino.h"
+
 #include <Adafruit_MS_PWMServoDriver.h>
+
+#include "Arduino.h"
 
 #if (MICROSTEPS == 8)
 ///! A sinusoial microstepping curve for the PWM output (8-bit range) with 9
@@ -49,7 +51,9 @@ static uint8_t microstepcurve[] = {0,   25,  50,  74,  98,  120, 141, 162, 180,
     @param  addr Optional I2C address if you've changed it
 */
 /**************************************************************************/
-Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) { _addr = addr; }
+Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) {
+  _addr = addr;
+}
 
 /**************************************************************************/
 /*!
@@ -63,7 +67,7 @@ Adafruit_MotorShield::Adafruit_MotorShield(uint8_t addr) { _addr = addr; }
     @returns true if successful, false otherwise
 */
 /**************************************************************************/
-bool Adafruit_MotorShield::begin(uint16_t freq, TwoWire *theWire) {
+bool Adafruit_MotorShield::begin(uint16_t freq, TwoWire* theWire) {
   // init PWM w/_freq
   _pwm = Adafruit_MS_PWMServoDriver(_addr);
   if (!_pwm.begin(theWire))
@@ -112,7 +116,7 @@ void Adafruit_MotorShield::setPin(uint8_t pin, boolean value) {
     @returns NULL if something went wrong, or a pointer to a Adafruit_DCMotor
 */
 /**************************************************************************/
-Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
+Adafruit_DCMotor* Adafruit_MotorShield::getMotor(uint8_t num) {
   if (num > 4)
     return NULL;
 
@@ -124,26 +128,26 @@ Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
     dcmotors[num].MC = this;
     uint8_t pwm, in1, in2;
     switch (num) {
-    case 0:
-      pwm = 8;
-      in2 = 9;
-      in1 = 10;
-      break;
-    case 1:
-      pwm = 13;
-      in2 = 12;
-      in1 = 11;
-      break;
-    case 2:
-      pwm = 2;
-      in2 = 3;
-      in1 = 4;
-      break;
-    default:
-      pwm = 7;
-      in2 = 6;
-      in1 = 5;
-      break;
+      case 0:
+        pwm = 8;
+        in2 = 9;
+        in1 = 10;
+        break;
+      case 1:
+        pwm = 13;
+        in2 = 12;
+        in1 = 11;
+        break;
+      case 2:
+        pwm = 2;
+        in2 = 3;
+        in1 = 4;
+        break;
+      default:
+        pwm = 7;
+        in2 = 6;
+        in1 = 5;
+        break;
     }
     dcmotors[num].PWMpin = pwm;
     dcmotors[num].IN1pin = in1;
@@ -163,7 +167,7 @@ Adafruit_DCMotor *Adafruit_MotorShield::getMotor(uint8_t num) {
    Adafruit_StepperMotor
 */
 /**************************************************************************/
-Adafruit_StepperMotor *Adafruit_MotorShield::getStepper(uint16_t steps,
+Adafruit_StepperMotor* Adafruit_MotorShield::getStepper(uint16_t steps,
                                                         uint8_t num) {
   if (num > 2)
     return NULL;
@@ -226,18 +230,18 @@ Adafruit_DCMotor::Adafruit_DCMotor(void) {
 /**************************************************************************/
 void Adafruit_DCMotor::run(uint8_t cmd) {
   switch (cmd) {
-  case FORWARD:
-    MC->setPin(IN2pin, LOW); // take low first to avoid 'break'
-    MC->setPin(IN1pin, HIGH);
-    break;
-  case BACKWARD:
-    MC->setPin(IN1pin, LOW); // take low first to avoid 'break'
-    MC->setPin(IN2pin, HIGH);
-    break;
-  case RELEASE:
-    MC->setPin(IN1pin, LOW);
-    MC->setPin(IN2pin, LOW);
-    break;
+    case FORWARD:
+      MC->setPin(IN2pin, LOW); // take low first to avoid 'break'
+      MC->setPin(IN1pin, HIGH);
+      break;
+    case BACKWARD:
+      MC->setPin(IN1pin, LOW); // take low first to avoid 'break'
+      MC->setPin(IN2pin, HIGH);
+      break;
+    case RELEASE:
+      MC->setPin(IN1pin, LOW);
+      MC->setPin(IN2pin, LOW);
+      break;
   }
 }
 
@@ -266,14 +270,18 @@ void Adafruit_DCMotor::setSpeedFine(uint16_t speed) {
     @brief  Set DC motor to full on.
 */
 /**************************************************************************/
-void Adafruit_DCMotor::fullOn() { MC->_pwm.setPWM(PWMpin, 4096, 0); }
+void Adafruit_DCMotor::fullOn() {
+  MC->_pwm.setPWM(PWMpin, 4096, 0);
+}
 
 /**************************************************************************/
 /*!
     @brief  Set DC motor to full off.
 */
 /**************************************************************************/
-void Adafruit_DCMotor::fullOff() { MC->_pwm.setPWM(PWMpin, 0, 4096); }
+void Adafruit_DCMotor::fullOff() {
+  MC->_pwm.setPWM(PWMpin, 0, 4096);
+}
 
 /******************************************
                STEPPERS
@@ -463,30 +471,30 @@ uint8_t Adafruit_StepperMotor::onestep(uint8_t dir, uint8_t style) {
       latch_state |= 0x09;
   } else {
     switch (currentstep / (MICROSTEPS / 2)) {
-    case 0:
-      latch_state |= 0x1; // energize coil 1 only
-      break;
-    case 1:
-      latch_state |= 0x3; // energize coil 1+2
-      break;
-    case 2:
-      latch_state |= 0x2; // energize coil 2 only
-      break;
-    case 3:
-      latch_state |= 0x6; // energize coil 2+3
-      break;
-    case 4:
-      latch_state |= 0x4; // energize coil 3 only
-      break;
-    case 5:
-      latch_state |= 0xC; // energize coil 3+4
-      break;
-    case 6:
-      latch_state |= 0x8; // energize coil 4 only
-      break;
-    case 7:
-      latch_state |= 0x9; // energize coil 1+4
-      break;
+      case 0:
+        latch_state |= 0x1; // energize coil 1 only
+        break;
+      case 1:
+        latch_state |= 0x3; // energize coil 1+2
+        break;
+      case 2:
+        latch_state |= 0x2; // energize coil 2 only
+        break;
+      case 3:
+        latch_state |= 0x6; // energize coil 2+3
+        break;
+      case 4:
+        latch_state |= 0x4; // energize coil 3 only
+        break;
+      case 5:
+        latch_state |= 0xC; // energize coil 3+4
+        break;
+      case 6:
+        latch_state |= 0x8; // energize coil 4 only
+        break;
+      case 7:
+        latch_state |= 0x9; // energize coil 1+4
+        break;
     }
   }
 #ifdef MOTORDEBUG
