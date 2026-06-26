@@ -13,3 +13,7 @@ target_include_directories(AdafruitMotorShieldV2
 )
 
 target_compile_features(AdafruitMotorShieldV2 PUBLIC cxx_std_11)
+
+add_executable(motor-cli cli.cpp)
+target_link_libraries(motor-cli PRIVATE AdafruitMotorShieldV2)
+target_compile_features(motor-cli PRIVATE cxx_std_11)
