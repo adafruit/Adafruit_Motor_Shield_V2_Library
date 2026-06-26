@@ -46,6 +46,14 @@ void Adafruit_MS_PWMServoDriver::setPWM(uint8_t num, uint16_t on,
   i2c_dev->write(buffer, 5);
 }
 
+bool Adafruit_MS_PWMServoDriver::verify() {
+  uint8_t mode1 = read8(PCA9685_MODE1);
+  if (mode1 == 0xFF)
+    return false;
+  // auto-increment (bit 5) must be set; sleep (bit 4) must be clear
+  return (mode1 & 0x30) == 0x20;
+}
+
 uint8_t Adafruit_MS_PWMServoDriver::read8(uint8_t addr) {
   uint8_t buffer[1] = {addr};
   i2c_dev->write_then_read(buffer, 1, buffer, 1);

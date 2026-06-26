@@ -7,6 +7,7 @@
 static void usage(const char* prog) {
   fprintf(stderr,
     "Usage:\n"
+    "  %s [-b bus] [-a addr] [-f freq] verify\n"
     "  %s [-b bus] [-a addr] [-f freq] dc <motor> <speed%%>\n"
     "  %s [-b bus] [-a addr] [-f freq] stepper <motor> speed <rpm>\n"
     "  %s [-b bus] [-a addr] [-f freq] stepper <motor> step <count> [single|double|interleave|microstep]\n"
@@ -19,7 +20,7 @@ static void usage(const char* prog) {
     "  -b bus   : I2C bus number (default 1)\n"
     "  -a addr  : shield I2C address in hex (default 0x60)\n"
     "  -f freq  : PWM frequency Hz (default 1600)\n",
-    prog, prog, prog);
+    prog, prog, prog, prog);
 }
 
 int main(int argc, char** argv) {
@@ -53,7 +54,16 @@ int main(int argc, char** argv) {
 
   const char* cmd = argv[i++];
 
-  if (strcmp(cmd, "dc") == 0) {
+  if (strcmp(cmd, "verify") == 0) {
+    if (shield.verify()) {
+      printf("ok: PCA9685 responded with expected MODE1 state\n");
+      return 0;
+    } else {
+      fprintf(stderr, "error: PCA9685 did not respond correctly — check wiring and address\n");
+      return 1;
+    }
+
+  } else if (strcmp(cmd, "dc") == 0) {
     if (i + 1 >= argc) {
       usage(argv[0]);
       return 1;

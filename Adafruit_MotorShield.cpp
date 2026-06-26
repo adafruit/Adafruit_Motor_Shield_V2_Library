@@ -22,6 +22,8 @@ bool Adafruit_MotorShield::begin(uint16_t freq, int busNum) {
   return true;
 }
 
+bool Adafruit_MotorShield::verify() { return _pwm.verify(); }
+
 void Adafruit_MotorShield::setPWM(uint8_t pin, uint16_t value) {
   if (value > 4095)
     _pwm.setPWM(pin, 4096, 0);

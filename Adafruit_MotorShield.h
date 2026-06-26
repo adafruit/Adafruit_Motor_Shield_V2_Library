@@ -68,6 +68,7 @@ class Adafruit_MotorShield {
   Adafruit_MotorShield(uint8_t addr = 0x60);
 
   bool begin(uint16_t freq = 1600, int busNum = 1);
+  bool verify();
   Adafruit_DCMotor* getMotor(uint8_t n);
   Adafruit_StepperMotor* getStepper(uint16_t steps, uint8_t n);
 
